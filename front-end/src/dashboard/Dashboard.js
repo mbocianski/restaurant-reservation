@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { listReservations } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
+import {useLocation, Link} from "react-router-dom";
+import { today, previous, next } from "../utils/date-time";
+
 
 /**
  * Defines the dashboard page.
@@ -8,7 +11,17 @@ import ErrorAlert from "../layout/ErrorAlert";
  *  the date for which the user wants to view reservations.
  * @returns {JSX.Element}
  */
-function Dashboard({ date }) {
+function Dashboard() {
+
+  // pulls in the date query from the URL to pass to List API function
+  const {search} = useLocation();
+  let date;
+  (search) ? date = new URLSearchParams(search).get("date") : date = today();
+  const previousDate = previous(date)
+  const nextDate = next(date)
+
+
+
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
 
@@ -22,15 +35,42 @@ function Dashboard({ date }) {
       .catch(setReservationsError);
     return () => abortController.abort();
   }
+console.log("reservations", reservations)
+const displayReservations = reservations.map((
+  {reservation_time, 
+  reservation_id, 
+  reservation_date,
+  first_name,
+  last_name,
+  people})=>{
+  
+  return (
+   <li className="list-group-item" key={reservation_id}>
+  <p><strong>{`${reservation_time}`}</strong></p>
+  <p>{`${first_name} ${last_name} `}<em>{`(Party of ${people}) `}</em></p>
+   </li>
+  )
+})
 
   return (
     <main>
       <h1>Dashboard</h1>
       <div className="d-md-flex mb-3">
-        <h4 className="mb-0">Reservations for date</h4>
+        <h4 className="mb-0">{`Reservations for ${date}`}</h4>
       </div>
       <ErrorAlert error={reservationsError} />
-      {JSON.stringify(reservations)}
+      <ul>{displayReservations}</ul>
+      <div>
+        <Link to={`/dashboard?date=${previousDate}`}>
+          <button className="btn mx-1 btn-secondary">Previous Day</button>
+        </Link>
+        <Link to="dashboard">
+          <button className="btn mx-1 btn-primary">Today</button>
+        </Link>
+        <Link to={`/dashboard?date=${nextDate}`}>
+          <button className="btn mx-1 btn-secondary">Next Day</button>
+        </Link>
+      </div>
     </main>
   );
 }
