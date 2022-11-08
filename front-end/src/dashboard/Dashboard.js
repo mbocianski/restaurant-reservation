@@ -3,6 +3,10 @@ import { listReservations } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import {useLocation, Link} from "react-router-dom";
 import { today, previous, next } from "../utils/date-time";
+import useQuery from "../utils/useQuery";
+import { formatAsTime } from "../utils/date-time";
+
+
 
 
 /**
@@ -14,9 +18,12 @@ import { today, previous, next } from "../utils/date-time";
 function Dashboard() {
 
   // pulls in the date query from the URL to pass to List API function
+  
+  const query = useQuery();
   const {search} = useLocation();
+
   let date;
-  (search) ? date = new URLSearchParams(search).get("date") : date = today();
+  (search) ? date = query.get("date") : date = today();
   const previousDate = previous(date)
   const nextDate = next(date)
 
@@ -35,7 +42,6 @@ function Dashboard() {
       .catch(setReservationsError);
     return () => abortController.abort();
   }
-console.log("reservations", reservations)
 const displayReservations = reservations.map((
   {reservation_time, 
   reservation_id, 
@@ -46,7 +52,7 @@ const displayReservations = reservations.map((
   
   return (
    <li className="list-group-item" key={reservation_id}>
-  <p><strong>{`${reservation_time}`}</strong></p>
+  <p><strong>{`${formatAsTime(reservation_time)}`}</strong></p>
   <p>{`${first_name} ${last_name} `}<em>{`(Party of ${people}) `}</em></p>
    </li>
   )

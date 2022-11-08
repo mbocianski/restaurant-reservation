@@ -36,19 +36,37 @@ async function list(req, res) {
   }
 
   function checkDate(req,res,next){
-    const {reservation_date} = req.body.data 
+    const {reservation_date, reservation_time} = req.body.data 
+    const dayName = moment(reservation_date).format('dddd');
+
+    //reconstitues date and time for comparison to currnt monent
+    const requestedMoment = reservation_date + " " + reservation_time;
+
+
     if (!moment(reservation_date, "YYYY-MM-DD", true).isValid()){
     next({
       status: 400,
       message: "reservation_date must be a date!"
     })
     }
+    if(dayName == 'Tuesday'){
+      next({
+        status: 400,
+        message: "Sorry, we are closed on Tuesdays, please select another date"
+      })
+    }
+    if (moment(requestedMoment).isBefore(moment())){
+      next({
+        status: 400,
+        message: "Reservation must be in the future"
+      })
+    }
+    
     next();
   }
 
   function checkTime(req,res,next){
     const {reservation_time} = req.body.data;
-    console.log(req.body.data) 
     if (!moment(reservation_time, "HH:mm", true).isValid()){
     next({
       status: 400,
@@ -75,7 +93,6 @@ async function list(req, res) {
 
 async function create(req, res){
   const reservation = req.body.data;
-  console.log("reservation", reservation)
  res.status(201).json({data: await service.create(reservation)})
 }
 

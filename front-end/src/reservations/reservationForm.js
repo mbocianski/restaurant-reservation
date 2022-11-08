@@ -1,61 +1,102 @@
 import React, { useEffect, useState } from "react";
-import { today } from "../utils/date-time";
+import { today, next } from "../utils/date-time";
 import {Link, useHistory, useParams} from "react-router-dom";
 import {createReservation} from "../utils/api";
-import {ErrorAlert} from "../layout/ErrorAlert"
+import ErrorAlert from "../layout/ErrorAlert"
+import { dayOfWeek } from "../utils/date-time";
+const moment = require("moment")
 
 function ReservationForm({type}){
 
 const history = useHistory();
 let initialFormData;
 
+
+//sets reservation date for tomorrow, or two days out of tommorrow is a Tuesday
+const firstDate = () => {
+ if (dayOfWeek(next(today())) === "Tuesday"){ 
+     return next(next(today()))}
+     return next(today());
+}
+
 if (type === "new"){
     initialFormData = {
         "first_name": "",
         "last_name": "",
         "mobile_number": "",
-        "reservation_date": today(),
+        "reservation_date": firstDate(),
         "reservation_time": "",
         "people": 0
     }
 }
 
-
 const [formData, setFormData] = useState(initialFormData);
+const [reservationsError, setReservationsError] = useState(null);
 
 //updates form as user types
 const changeHandler = ({target}) =>{
-    console.log("target", target.name)
+
     setFormData({
         ...formData,
         [target.name]: (target.name === "people") ? parseInt(target.value) : target.value
 })
-
 }
 
+//checks for errors while formData is being updated
+
+useEffect(()=>{
+    const requestedMoment = formData.reservation_date + " " + formData.reservation_time;
+    const errors = []
+    
+    if (dayOfWeek(formData.reservation_date) === "Tuesday"){
+        errors.push("Sorry, we are closed on Tuesdays. Please select another date.")
+    }
+    if (moment(requestedMoment).isBefore(moment())){
+       errors.push("Reservations must be in the future!");
+    }
+    // will only display errors if they exist, otherwise sets to null
+    if (errors.length > 0){
+    setReservationsError({message: errors.join("\r\n")})
+    } else {
+        setReservationsError(null);
+    }
+
+},[formData])
+
+
+
+
+
+
+
+
 //send data to createReservation API function;
+
 async function newReservation(formData){    
-    try{
-    await createReservation(formData)
-    } catch (error) {
-        console.log("error: ", error)
+    
+     try{
+        await createReservation(formData)
+        const toDate = formData.reservation_date;
+        setFormData(initialFormData);
+        history.push(`/dashboard?date=${toDate}`)
+    }
+     catch (error) {
+        setReservationsError(error);
+        
     }
 }
 
 
 const submitHandler = (event) => {
     event.preventDefault();
-    console.log("submitted")
-    if (type === "new") newReservation(formData);
-    const toDate = formData.reservation_date;
-    setFormData(initialFormData);
-    history.push(`/dashboard?date=${toDate}`)
+   newReservation(formData);
+    }
 
-}
 
 
     return(
-        <div>  
+        <div>
+           
             <h2>New Reservation</h2>
             <form onSubmit={submitHandler}>
             <div className="mb-3">
@@ -146,8 +187,9 @@ const submitHandler = (event) => {
                         required={true}/>
                 </div>
                 <button onClick={() => history.goBack()} className="btn btn-secondary">Cancel</button>
-                <input className="btn btn-primary" type="submit" value="Submit" />
+                 <button className="btn btn-primary" type="submit" value="submit">Submit</button>
             </form>
+            {reservationsError && <ErrorAlert error={reservationsError} />}  
         </div>
     );
 }

@@ -1,5 +1,7 @@
 const dateFormat = /\d\d\d\d-\d\d-\d\d/;
 const timeFormat = /\d\d:\d\d/;
+const moment = require("moment")
+
 
 /**
  * Formats a Date object as YYYY-MM-DD.
@@ -79,4 +81,10 @@ export function next(currentDate) {
   date.setMonth(date.getMonth());
   date.setDate(date.getDate() + 1);
   return asDateString(date);
+}
+
+//returns day of week
+
+export function dayOfWeek(date){
+ return moment(date).format('dddd');
 }

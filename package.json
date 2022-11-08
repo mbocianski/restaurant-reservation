@@ -45,13 +45,14 @@
     "test:e2e": "npm run test:e2e --prefix ./front-end",
     "test:frontend:watch": "npm test --prefix ./front-end",
     "push:heroku-backend": "git subtree push --prefix back-end heroku-backend main",
-    "push:heroku-client": "git subtree push --prefix front-end heroku-client main",
-    "open": "heroku open -a restaurant-reserve-client-mb"
+    "push:heroku-client": "git subtree push --prefix --app front-end heroku-client main",
+    "open": "heroku open -a restaurant-reserve-backend-mb"
   },
   "keywords": [],
   "author": "Thinkful, Inc.",
   "license": "UNLICENSED",
   "dependencies": {
-    "moment": "^2.29.4"
+    "moment": "^2.29.4",
+    "react-hook-form": "^7.39.1"
   }
 }
