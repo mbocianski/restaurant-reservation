@@ -4,7 +4,8 @@ import {Link, useHistory, useParams} from "react-router-dom";
 import {createReservation} from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert"
 import { dayOfWeek } from "../utils/date-time";
-const moment = require("moment")
+import CheckFormErrors from "./CheckFormErrors";
+const moment = require("moment");
 
 function ReservationForm({type}){
 
@@ -42,38 +43,28 @@ const changeHandler = ({target}) =>{
 })
 }
 
-//checks for errors while formData is being updated
+// console.log("form:", formData)
 
 useEffect(()=>{
-    const requestedMoment = formData.reservation_date + " " + formData.reservation_time;
-    const errors = []
-    
-    if (dayOfWeek(formData.reservation_date) === "Tuesday"){
-        errors.push("Sorry, we are closed on Tuesdays. Please select another date.")
-    }
-    if (moment(requestedMoment).isBefore(moment())){
-       errors.push("Reservations must be in the future!");
-    }
-    // will only display errors if they exist, otherwise sets to null
-    if (errors.length > 0){
+    async function check(){
+const errors = await CheckFormErrors(formData);
+if (errors.length > 0){
     setReservationsError({message: errors.join("\r\n")})
-    } else {
-        setReservationsError(null);
+} else {
+    setReservationsError(null);
+}
     }
-
+    check();
 },[formData])
-
-
-
-
-
-
-
 
 //send data to createReservation API function;
 
-async function newReservation(formData){    
-    
+async function newReservation(formData){  
+setReservationsError(null);  
+const errors = await CheckFormErrors(formData);
+
+console.log("errors:" , errors)
+if (!errors.length > 0){
      try{
         await createReservation(formData)
         const toDate = formData.reservation_date;
@@ -84,8 +75,11 @@ async function newReservation(formData){
         setReservationsError(error);
         
     }
-}
+    } else {
+        setReservationsError({message: errors.join("\r\n")})
+        }
 
+}
 
 const submitHandler = (event) => {
     event.preventDefault();
