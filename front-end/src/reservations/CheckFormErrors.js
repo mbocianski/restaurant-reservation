@@ -3,20 +3,20 @@ import { dayOfWeek } from "../utils/date-time";
 const moment = require("moment");
 
 
-export default async function checkFormErrors(formData){
+export default function checkFormErrors(formData){
         const requestedMoment = formData.reservation_date + " " + formData.reservation_time;
         const errors = []
-        console.log("errors", errors)
         
         if (dayOfWeek(formData.reservation_date) === "Tuesday"){
             errors.push("Sorry, we are closed on Tuesdays. Please select another date.")
         }
         if (moment(requestedMoment).isBefore(moment())){
+            console.log("too early!");
            errors.push("Reservations must be in the future!");
         }
     
     
-        //Error handling for resrvation time
+        // Error handling for resrvation time
         const format = "hh:mm";
         const reservation = moment(formData.reservation_time, format);
         const openTime = moment("10:30", format);
@@ -35,6 +35,8 @@ export default async function checkFormErrors(formData){
             errors.push("Sorry, we are closed at that time.")
         }
         
-       return errors
+        console.log("errors from check", errors)
+       
+        return errors
     
     }

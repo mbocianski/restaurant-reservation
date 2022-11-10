@@ -1,7 +1,6 @@
 const service = require("./reservations.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const moment = require("moment");
-const { default: ReservationForm } = require("../../../front-end/src/reservations/reservationForm");
 // const { next } = require("../../../front-end/src/utils/date-time");
 
 /**
@@ -67,7 +66,7 @@ function checkDate(req, res, next) {
 function checkTime(req, res, next) {
   const { reservation_time } = req.body.data;
   const format = "hh:mm";
-  const reservation = moment(formData.reservation_time, format);
+  const reservation = moment(reservation_time, format);
   const openTime = moment("10:30", format);
   const lastCall = moment("21:30", format)
   const closeTime = moment("22:30", format);
@@ -81,22 +80,22 @@ function checkTime(req, res, next) {
 
   if(reservation.isBefore(openTime)){
     next({
-      statis: 400,
-      message: "reservation_time must be after 9:30 a.m."
+      status: 400,
+      message: "Reservations are not allowed before 10:30 a.m."
     })
   }
 
   if(reservation.isBetween(lastCall,closeTime)){
     next({
-      statis: 400,
-      message: "reservation_time cannot be after 9:30 p.m."
+      status: 400,
+      message: "Reservations cannot be made after 9:30 PM. Kitchen is closed."
     })
   }
 
   if(reservation.isAfter(closeTime)){
     next({
-      statis: 400,
-      message: "reservation_time is not valid after 10:30 p.m."
+      status: 400,
+      message: "We are closed at this time."
     })
   }
 
