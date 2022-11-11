@@ -33,11 +33,9 @@ function ReservationForm({ type }) {
   const [formData, setFormData] = useState(initialFormData);
   const [reservationsError, setReservationsError] = useState(null);
   const [showErrors, setShowErrors] = useState(false);
-  console.log("any errors?", showErrors);
 
   //updates form as user types
   const changeHandler = ({ target }) => {
-    
     setFormData({
       ...formData,
       [target.name]:
@@ -45,15 +43,25 @@ function ReservationForm({ type }) {
     });
   };
 
+  //sets errors every time the data on the form changes
+  useEffect(() => {
+    setShowErrors(false);
+    setReservationsError(null);
+    setReservationsError(CheckFormErrors(formData));
+  }, [formData]);
 
-  useEffect(()=>{
-     setShowErrors(false);
-     const errors = CheckFormErrors(formData);
-     setReservationsError(null);
-     setReservationsError({ message: errors.join("\r\n") });
-     console.log("errors:", errors);
-  }, [formData])
-
+  //maps each error into ErrorAlert componenet;
+  let errors;
+  if (reservationsError) {
+    errors = reservationsError.map((error) => {
+      const formattedError = { message: error };
+      return (
+        <div>
+          <ErrorAlert error={formattedError} />
+        </div>
+      );
+    });
+  }
   //send data to createReservation API function;
 
   async function newReservation(formData) {
@@ -62,9 +70,7 @@ function ReservationForm({ type }) {
       const toDate = formData.reservation_date;
       setFormData(initialFormData);
       history.push(`/dashboard?date=${toDate}`);
-    } catch (error) {
-      console.log("API Error:", error);
-    }
+    } catch (error) {}
   }
 
   const submitHandler = (event) => {
@@ -88,7 +94,6 @@ function ReservationForm({ type }) {
             type="text"
             value={formData.first_name}
             onChange={changeHandler}
-            required={true}
           />
         </div>
         <div className="mb-3">
@@ -102,7 +107,6 @@ function ReservationForm({ type }) {
             type="text"
             value={formData.last_name}
             onChange={changeHandler}
-            required={true}
           />
         </div>
         <div className="mb-3">
@@ -115,10 +119,8 @@ function ReservationForm({ type }) {
             name="mobile_number"
             type="tel"
             placeholder="XXX-XXX-XXXX"
-            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
             value={formData.mobile_number}
             onChange={changeHandler}
-            required={true}
           />
         </div>
         <div className="mb-3">
@@ -132,7 +134,6 @@ function ReservationForm({ type }) {
               placeholder="Party Size"
               value={formData.people}
               onChange={changeHandler}
-              required={true}
             />
           </label>
         </div>
@@ -149,7 +150,6 @@ function ReservationForm({ type }) {
             pattern="\d{4}-\d{2}-\d{2}"
             value={formData.reservation_date}
             onChange={changeHandler}
-            required={true}
           />
         </div>
         <div className="mb-3">
@@ -165,7 +165,6 @@ function ReservationForm({ type }) {
             pattern="[0-9]{2}:[0-9]{2}"
             value={formData.reservation_time}
             onChange={changeHandler}
-            required={true}
           />
         </div>
         <button onClick={() => history.goBack()} className="btn btn-secondary">
@@ -175,7 +174,8 @@ function ReservationForm({ type }) {
           Submit
         </button>
       </form>
-      {showErrors && <ErrorAlert error={reservationsError} />}
+      {/* maps errors into ShowErrors */}
+      {showErrors && errors}
     </div>
   );
 }
