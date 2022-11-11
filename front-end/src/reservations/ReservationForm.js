@@ -70,7 +70,9 @@ function ReservationForm({ type }) {
       const toDate = formData.reservation_date;
       setFormData(initialFormData);
       history.push(`/dashboard?date=${toDate}`);
-    } catch (error) {}
+    } catch (error) {
+      setReservationsError(error);
+    }
   }
 
   const submitHandler = (event) => {
