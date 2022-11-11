@@ -17,8 +17,8 @@ export default function checkFormErrors(formData) {
   }
 
   if (formData.people < 1){
-      errors.push("Must have at least 1 person in your party")
-  }
+    errors.push("Must have at least 1 person in your party")
+}
 
   // Error handling for resrvation time
   const format = "hh:mm";
