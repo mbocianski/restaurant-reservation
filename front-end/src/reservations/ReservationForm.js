@@ -71,7 +71,7 @@ function ReservationForm({ type }) {
       setFormData(initialFormData);
       history.push(`/dashboard?date=${toDate}`);
     } catch (error) {
-      setReservationsError(error);
+      console.log("api error: ", error)
     }
   }
 
