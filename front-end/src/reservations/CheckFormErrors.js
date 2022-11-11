@@ -16,6 +16,10 @@ export default function checkFormErrors(formData) {
     errors.push("Reservations must be in the future!");
   }
 
+  if (formData.people < 1){
+      errors.push("Must have at least 1 person in your party")
+  }
+
   // Error handling for resrvation time
   const format = "hh:mm";
   const reservation = moment(formData.reservation_time, format);
