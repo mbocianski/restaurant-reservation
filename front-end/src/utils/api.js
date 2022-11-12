@@ -95,7 +95,7 @@ Creates table
 
 
 export async function createTable(table){
-  const url = new URL(`${API_BASE_URL}/tables/new`);
+  const url = new URL(`${API_BASE_URL}/tables`);
   console.log("url", url)
     const options = {
       method: "POST",

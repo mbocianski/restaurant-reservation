@@ -3,7 +3,7 @@ const knex = require("../db/connection");
 async function list(){
     return knex("tables")
     .select("*")
-    .orderBy("name", "asc")
+    .orderBy("table_name", "asc")
 }
 
 async function create(table){

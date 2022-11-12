@@ -53,10 +53,10 @@ function ReservationForm({ type }) {
   //maps each error into ErrorAlert componenet;
   let errors;
   if (reservationsError) {
-    errors = reservationsError.map((error) => {
+    errors = reservationsError.map((error, index) => {
       const formattedError = { message: error };
       return (
-        <div>
+        <div key={index}>
           <ErrorAlert error={formattedError} />
         </div>
       );

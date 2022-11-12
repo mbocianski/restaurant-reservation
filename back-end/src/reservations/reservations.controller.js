@@ -11,6 +11,7 @@ async function list(req, res) {
   res.json({ data: await service.list(date) });
 }
 
+//Checks if request contains data
 function hasData(req, res, next) {
   if (!req.body.data) {
     next({
@@ -20,6 +21,8 @@ function hasData(req, res, next) {
   }
   next();
 }
+
+//Checks for each property in form
 
 function hasProperty(property) {
   return function (req, res, next) {
@@ -34,8 +37,9 @@ function hasProperty(property) {
   };
 }
 
+//checks to see if date and time exist
 function checkDate(req, res, next) {
-  const { reservation_date, reservation_time } = req.body.data;
+  const { reservation_date, reservation_time } = res.locals;
   const dayName = moment(reservation_date).format("dddd");
 
   //reconstitues date and time for comparison to currnt monent
@@ -64,7 +68,7 @@ function checkDate(req, res, next) {
 }
 
 function checkTime(req, res, next) {
-  const { reservation_time } = req.body.data;
+  const { reservation_time } = res.locals;
   const format = "hh:mm";
   const reservation = moment(reservation_time, format);
   const openTime = moment("10:30", format);
@@ -114,7 +118,7 @@ function peopleIsInteger(req, res, next) {
 }
 
 async function create(req, res) {
-  const reservation = req.body.data;
+  const reservation = res.locals;
   res.status(201).json({ data: await service.create(reservation) });
 }
 

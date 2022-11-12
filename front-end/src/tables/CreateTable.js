@@ -1,19 +1,25 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {useHistory} from "react-router-dom"
-import { createTable } from "../utils/api";
+import {createTable} from "../utils/api";
+import CheckTableErrors from "./CheckTableErrors"
+import ErrorAlert from "../layout/ErrorAlert";
 
 export default function CreateTable() {
 
   const initialFormData = {
-    name: "",
-    capacity: "1",
+    table_name: "",
+    capacity: "",
   };
+
 
   const history = useHistory();
 
   const [formData, setFormData] = useState(initialFormData);
-  console.log("form:", formData)
+  const [showErrors, setShowErrors] = useState(false);
+  const [tableErrors, setTableErrors] = useState(null);
 
+  console.log("data:", formData)
+  //sets state for changes and sets capacity to an integer
   const changeHandler = ({ target }) => {
     setFormData({
       ...formData,
@@ -22,6 +28,29 @@ export default function CreateTable() {
     });
   };
 
+//sets errors on form change
+  useEffect(() => {
+    setShowErrors(false);
+    setTableErrors(null);
+    setTableErrors(CheckTableErrors(formData));
+  }, [formData]);
+
+
+  //maps each error into ErrorAlert componenet;
+  let errors;
+  if (tableErrors) {
+    errors = tableErrors.map((error, index) => {
+      const formattedError = { message: error };
+      return (
+        <div key={index}>
+          <ErrorAlert error={formattedError} />
+        </div>
+      );
+    });
+  }
+
+
+//sends data to Table API to create new table
   async function newTable(formData) {
     try {
       await createTable(formData);
@@ -32,9 +61,12 @@ export default function CreateTable() {
     }
   }
 
-
+//Displays any table errors and attempts to create a new tabl
   const submitHandler = (event) => {
       event.preventDefault();
+      console.log(formData)
+      if(tableErrors) setShowErrors(true);
+      
       newTable(formData);
   }
 
@@ -43,16 +75,15 @@ export default function CreateTable() {
       <h2>Create Table</h2>
       <form onSubmit={submitHandler}>
         <div className="mb-3">
-          <label className="form-label" htmlFor="name">
-            Name:
+          <label className="form-label" htmlFor="table_name">
+           Table Name:
           </label>
           <input
             className="form-control"
-            id="name"
-            name="name"
+            id="table_name"
+            name="table_name"
             type="text"
-            minLength={2}
-            value={formData.name}
+            value={formData.table_name}
             onChange={changeHandler}
           />
         </div>
@@ -76,6 +107,8 @@ export default function CreateTable() {
           Submit
         </button>
       </form>
+       {/* maps errors into ShowErrors */}
+       {showErrors && errors}
     </div>
   );
 }
