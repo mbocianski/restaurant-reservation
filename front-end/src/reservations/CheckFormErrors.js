@@ -3,9 +3,24 @@ import { dayOfWeek } from "../utils/date-time";
 const moment = require("moment");
 
 export default function checkFormErrors(formData) {
+
+  const {
+      first_name,
+      last_name, 
+      mobile_number, 
+      reservation_date, 
+      reservation_time, 
+      people} = formData
+
+
   const requestedMoment =
     formData.reservation_date + " " + formData.reservation_time;
-  const errors = [];
+  let errors = [];
+
+  if(!first_name || !last_name || !mobile_number || !reservation_date || !reservation_time){
+    errors.push("All fields are required");
+    return errors
+  }
 
   if (dayOfWeek(formData.reservation_date) === "Tuesday") {
     errors.push(
@@ -40,6 +55,8 @@ export default function checkFormErrors(formData) {
   if (reservation.isAfter(closeTime)) {
     errors.push("Sorry, we are closed at that time.");
   }
+
+
 
   return errors;
 }

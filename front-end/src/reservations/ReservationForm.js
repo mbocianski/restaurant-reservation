@@ -62,6 +62,8 @@ function ReservationForm({ type }) {
       );
     });
   }
+
+
   //send data to createReservation API function;
 
   async function newReservation(formData) {
@@ -71,15 +73,15 @@ function ReservationForm({ type }) {
       setFormData(initialFormData);
       history.push(`/dashboard?date=${toDate}`);
     } catch (error) {
-      console.log("api error: ", error)
+      console.log("api error: ", error.message)
     }
   }
 
   const submitHandler = (event) => {
-    setShowErrors(true);
+    if (reservationsError)setShowErrors(true)
     event.preventDefault();
     newReservation(formData);
-  };
+  }
 
   return (
     <div>
