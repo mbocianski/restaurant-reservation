@@ -7,8 +7,11 @@ async function list(req, res, next){
 }
 
 
-async function create(req,res,next){
-
+async function create(req, res, next){
+    console.log("req:", req.body)
+    const {data} = req.body
+    console.log("table", data)
+    res.json({data: await service.create(data)})
 }
 
 

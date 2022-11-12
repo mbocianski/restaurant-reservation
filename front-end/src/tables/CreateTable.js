@@ -6,12 +6,12 @@ export default function CreateTable() {
 
   const initialFormData = {
     name: "",
-    capacity: "",
+    capacity: "1",
   };
 
-  const {history} = useHistory();
+  const history = useHistory();
 
-  const [formData, setFormData] = useState({initialFormData});
+  const [formData, setFormData] = useState(initialFormData);
   console.log("form:", formData)
 
   const changeHandler = ({ target }) => {
@@ -64,7 +64,6 @@ export default function CreateTable() {
               id="capacity"
               name="capacity"
               type="number"
-              defaultValue={1}
               value={formData.capacity}
               onChange={changeHandler}
             />

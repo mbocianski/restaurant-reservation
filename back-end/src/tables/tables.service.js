@@ -6,7 +6,14 @@ async function list(){
     .orderBy("name", "asc")
 }
 
+async function create(table){
+    return knex("tables")
+        .insert(table)
+        .returning("*")
+        .then((table)=> table[0])
+}
 
 module.exports = {
     list,
+    create,
 }
