@@ -41,10 +41,11 @@ function hasProperty(property) {
 function checkDate(req, res, next) {
   const { reservation_date, reservation_time } = res.locals;
   const dayName = moment(reservation_date).format("dddd");
+ 
 
   //reconstitues date and time for comparison to currnt monent
   const requestedMoment = reservation_date + " " + reservation_time;
-
+  console.log("dat",requestedMoment);
   if (!moment(reservation_date, "YYYY-MM-DD", true).isValid()) {
     next({
       status: 400,

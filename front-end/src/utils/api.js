@@ -77,8 +77,7 @@ Creates reservation
 
 
 export async function createReservation(reservation){
-  const url = new URL(`${API_BASE_URL}/reservations/new`);
-  console.log("url", url)
+  const url = new URL(`${API_BASE_URL}/reservations`);
     const options = {
       method: "POST",
       headers,
