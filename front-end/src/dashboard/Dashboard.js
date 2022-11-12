@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { listReservations } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
-import {useLocation, Link} from "react-router-dom";
+import ReservationsDash from "./ReservationsDash";
+import TablesDash from "./TablesDash";
+import { useLocation, Link } from "react-router-dom";
 import { today, previous, next } from "../utils/date-time";
 import useQuery from "../utils/useQuery";
-import { formatAsTime } from "../utils/date-time";
-
-
-
+import { listTables } from "../utils/api";
 
 /**
  * Defines the dashboard page.
@@ -16,21 +15,19 @@ import { formatAsTime } from "../utils/date-time";
  * @returns {JSX.Element}
  */
 function Dashboard() {
-
   // pulls in the date query from the URL to pass to List API function
-  
+
   const query = useQuery();
-  const {search} = useLocation();
+  const { search } = useLocation();
 
   let date;
-  (search) ? date = query.get("date") : date = today();
-  const previousDate = previous(date)
-  const nextDate = next(date)
-
-
+  search ? (date = query.get("date")) : (date = today());
+  const previousDate = previous(date);
+  const nextDate = next(date);
 
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
+  const [tables, setTables] = useState([]);
 
   useEffect(loadDashboard, [date]);
 
@@ -40,23 +37,13 @@ function Dashboard() {
     listReservations({ date }, abortController.signal)
       .then(setReservations)
       .catch(setReservationsError);
+
+    listTables(abortController.signal)
+      .then(setTables)
+      .catch(setReservationsError);
+
     return () => abortController.abort();
   }
-const displayReservations = reservations.map((
-  {reservation_time, 
-  reservation_id, 
-  reservation_date,
-  first_name,
-  last_name,
-  people})=>{
-  
-  return (
-   <li className="list-group-item" key={reservation_id}>
-  <p><strong>{`${formatAsTime(reservation_time)}`}</strong></p>
-  <p>{`${first_name} ${last_name} `}<em>{`(Party of ${people}) `}</em></p>
-   </li>
-  )
-})
 
   return (
     <main>
@@ -65,17 +52,24 @@ const displayReservations = reservations.map((
         <h4 className="mb-0">{`Reservations for ${date}`}</h4>
       </div>
       <ErrorAlert error={reservationsError} />
-      <ul>{displayReservations}</ul>
-      <div>
-        <Link to={`/dashboard?date=${previousDate}`}>
-          <button className="btn mx-1 btn-secondary">Previous Day</button>
-        </Link>
-        <Link to="dashboard">
-          <button className="btn mx-1 btn-primary">Today</button>
-        </Link>
-        <Link to={`/dashboard?date=${nextDate}`}>
-          <button className="btn mx-1 btn-secondary">Next Day</button>
-        </Link>
+      <div className="container">
+        <div className="row">
+          <div className="col-6 border border-solid">
+           <ReservationsDash reservations={reservations} />
+            <Link to={`/dashboard?date=${previousDate}`}>
+              <button className="btn mx-1 btn-secondary">Previous Day</button>
+            </Link>
+            <Link to="dashboard">
+              <button className="btn mx-1 btn-primary">Today</button>
+            </Link>
+            <Link to={`/dashboard?date=${nextDate}`}>
+              <button className="btn mx-1 btn-secondary">Next Day</button>
+            </Link>
+          </div>
+          <div className="col-6 border border-solid">
+          <TablesDash tables={tables} />
+          </div>
+        </div>
       </div>
     </main>
   );

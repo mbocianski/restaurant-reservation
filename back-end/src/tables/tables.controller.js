@@ -48,7 +48,6 @@ function checkName(req, res, next){
 //checks if capacity is an integer and at least one
 function checkCapacity(req,res,next){
     const {capacity} = res.locals;
-    console.log("capacity:", capacity, typeof capacity)
     if(typeof capacity !== "number" || capacity < 1 ){
         next({
             status: 400,
