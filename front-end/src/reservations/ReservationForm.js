@@ -5,7 +5,7 @@ import { createReservation } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import { dayOfWeek } from "../utils/date-time";
 import CheckFormErrors from "./CheckFormErrors";
-const moment = require("moment");
+
 
 function ReservationForm({ type }) {
   const history = useHistory();

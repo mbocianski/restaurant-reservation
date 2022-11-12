@@ -5,6 +5,7 @@ import Dashboard from "../dashboard/Dashboard";
 import NotFound from "./NotFound";
 import { today } from "../utils/date-time";
 import ReservationForm from "../reservations/ReservationForm";
+import CreateTable from "../tables/CreateTable";
 
 /**
  * Defines all the routes for the application.
@@ -27,6 +28,9 @@ function Routes() {
       </Route>
       <Route path="/reservations/new">
         <ReservationForm type={"new"} />
+      </Route>
+      <Route path="/tables/new">
+        <CreateTable />
       </Route>
       <Route>
         <NotFound />
