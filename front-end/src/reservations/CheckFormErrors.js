@@ -1,4 +1,3 @@
-import React from "react";
 import { dayOfWeek } from "../utils/date-time";
 const moment = require("moment");
 
@@ -10,7 +9,7 @@ export default function checkFormErrors(formData) {
       mobile_number, 
       reservation_date, 
       reservation_time, 
-      people} = formData
+      } = formData
 
 
   const requestedMoment =

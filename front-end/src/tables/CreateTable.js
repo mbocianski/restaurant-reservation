@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import {useHistory} from "react-router-dom"
+import { createTable } from "../utils/api";
 
 export default function CreateTable() {
 
@@ -21,9 +22,20 @@ export default function CreateTable() {
     });
   };
 
+  async function newTable(formData) {
+    try {
+      await createTable(formData);
+      setFormData(initialFormData);
+      history.push("/dashboard");
+    } catch (error) {
+      console.log("api error: ", error.message)
+    }
+  }
+
+
   const submitHandler = (event) => {
       event.preventDefault();
-      
+      newTable(formData);
   }
 
   return (

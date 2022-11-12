@@ -77,12 +77,30 @@ Creates reservation
 
 
 export async function createReservation(reservation){
-  const url = new URL(`${API_BASE_URL}/reservations`);
+  const url = new URL(`${API_BASE_URL}/reservations/new`);
   console.log("url", url)
     const options = {
       method: "POST",
       headers,
       body: JSON.stringify({data: reservation}),
+    }
+  return await fetchJson(url, options, {});
+}
+
+/*
+Creates table
+* @returns {Promise<[table]>}
+ *  a promise that resolves to a newly created table saved in the database.
+ */
+
+
+export async function createTable(table){
+  const url = new URL(`${API_BASE_URL}/tables/new`);
+  console.log("url", url)
+    const options = {
+      method: "POST",
+      headers,
+      body: JSON.stringify({data: table}),
     }
   return await fetchJson(url, options, {});
 }
