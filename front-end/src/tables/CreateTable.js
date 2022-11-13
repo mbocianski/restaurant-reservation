@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import {useHistory} from "react-router-dom"
 import {createTable} from "../utils/api";
-import CheckTableErrors from "./CheckTableErrors"
+import {CheckTableErrors} from "./CheckTableErrors"
 import ErrorAlert from "../layout/ErrorAlert";
 
 export default function CreateTable() {

@@ -123,6 +123,11 @@ async function create(req, res) {
   res.status(201).json({ data: await service.create(reservation) });
 }
 
+async function read(req, res){
+  const {reservation_id}= req.params
+  res.json({data: await service.read(reservation_id)})
+}
+
 module.exports = {
   list: asyncErrorBoundary(list),
   create: [
@@ -138,4 +143,5 @@ module.exports = {
     checkTime,
     asyncErrorBoundary(create),
   ],
+  read: asyncErrorBoundary(read)
 };

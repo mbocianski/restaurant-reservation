@@ -19,7 +19,15 @@ async function create(reservation){
     
 }
 
+async function read(reservation_id){
+    return knex("reservations")
+    .select("*")
+    .where("reservation_id", reservation_id)
+    .then((reservation)=> reservation[0]);
+}
+
 module.exports = {
     list,
-    create
+    create,
+    read
 }

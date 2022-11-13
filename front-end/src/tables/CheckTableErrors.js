@@ -1,4 +1,4 @@
-export default function checkTableErrors(table){
+function CheckTableErrors(table){
 
     const {table_name, capacity} = table;
     let errors = [];
@@ -13,4 +13,21 @@ export default function checkTableErrors(table){
 
     return errors;
 
+}
+
+function CheckSeatErrors(table, people = 0){
+    const {table_name, capacity, reservation_id} = table;
+    let errors = [];
+
+    if (reservation_id) errors.push(`${table_name} is full!`)
+    if (people > capacity) errors.push(`Plase select a larger table`)
+
+    return errors
+
+}
+
+
+module.exports = {
+    CheckTableErrors,
+    CheckSeatErrors
 }
