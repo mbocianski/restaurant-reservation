@@ -100,7 +100,7 @@ export default function CreateTable() {
             />
           </label>
         </div>
-        <button onClick={() => history.goBack()} className="btn btn-secondary">
+        <button type="button" onClick={()=> history.goBack()} className="btn btn-secondary">
           Cancel
         </button>
         <button className="btn btn-primary" type="submit" value="submit">

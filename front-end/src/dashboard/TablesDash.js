@@ -2,16 +2,21 @@ import React from "react";
 
 export default function TablesDash({tables}){
 
-    const displayTables = tables.map(
-        ({table_id, table_name, capacity}) => {
+    const displayTables = tables.map((table) => {
+
           return (
-            <li className="list-group-item" key={table_id}>
+            <li className="list-group-item d-flex justify-content-around" key={table.table_id}>
+            <div>
               <p>
-                <strong>{table_name}</strong>
+                <strong>{table.table_name}</strong>
               </p>
               <p>
-                <em>{`${capacity} seats`}</em>
+                <em>{`${table.capacity} seats`}</em>
               </p>
+              </div>
+              <div className="my-auto" style={{fontSize:"20px"}}>
+               <strong><p data-table-id-status={`${table.table_id}`}>{table.reservation_id ? "Occupied": "Free"}</p></strong>
+              </div>
             </li>
           );
         }
