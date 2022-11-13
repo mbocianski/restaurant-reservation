@@ -123,7 +123,9 @@ async function create(req, res) {
   res.status(201).json({ data: await service.create(reservation) });
 }
 
-async function read(req, res){
+
+
+async function read(req, res, next){
   const {reservation_id}= req.params
   res.json({data: await service.read(reservation_id)})
 }

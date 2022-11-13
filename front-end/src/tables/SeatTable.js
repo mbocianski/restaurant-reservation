@@ -30,13 +30,11 @@ export default function SeatTable() {
 
     return () => abortController.abort();
   }
-  console.log("res", reservation)
 
 // sets table to table selected from form
   const changeHandler = ({target}) => {
     const selectedTable = allTables.find(table => Number(target.value) === table.table_id)
     setTable(selectedTable);
-  
   }
 
 //sets errors on form change and pases table information and party size
@@ -47,7 +45,7 @@ useEffect(() => {
   }, [table]);
 
   let errors;
-  
+
   if (seatErrors) {
     errors = seatErrors.map((error, index) => {
       const formattedError = { message: error };
@@ -59,14 +57,28 @@ useEffect(() => {
     });
   }
 
+async function update(table_id, reservation_id){
+
+ console.log(table_id, reservation_id)   
+    try {
+        await updateTable(table_id, Number(reservation_id));
+        setTable(null);
+        history.push("/dashboard");
+      } catch (error) {
+        console.log("api error: ", error.message)
+      }
+    }
+  
+
 
 
   const submitHandler = (event) => {
       event.preventDefault();
       if(errors) setShowErrors(true);
+      update(table.table_id, reservation_id)
   }
 
-
+console.log(table, "table");
   // maps table data to create options for the form.
   const formOptions =  allTables.map((table) => {
       return(

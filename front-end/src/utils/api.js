@@ -133,3 +133,21 @@ export async function createTable(table){
     }
   return await fetchJson(url, options, {});
 }
+
+/*
+Udates table with reservation_id to assign reservation to table
+* @returns {Promise<[table]>}
+ *  a promise that resolves to a newly created table saved in the database.
+ */
+
+
+export async function updateTable(table_id, reservation_id){
+  const url = new URL(`${API_BASE_URL}/tables/${table_id}/seat`);
+  console.log("url", url)
+    const options = {
+      method: "PUT",
+      headers,
+      body: JSON.stringify({data: {reservation_id: reservation_id}}),
+    }
+  return await fetchJson(url, options, {});
+}
