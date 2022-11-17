@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { readReservation, listTables, updateTable } from "../utils/api";
 import {CheckSeatErrors} from "./CheckTableErrors";
-import ErrorAlert from "../layout/ErrorAlert";
+import MapErrors from "../utils/MapErrors";
 
 export default function SeatTable() {
 
@@ -14,6 +14,7 @@ export default function SeatTable() {
   const { reservation_id } = useParams();
   const history = useHistory();
 
+  
 
   //loads table and resrervation data
   useEffect(loadData, []);
@@ -37,25 +38,17 @@ export default function SeatTable() {
     setTable(selectedTable);
   }
 
+// sets default of people to 0 if reservaiton is not loaded
+let people;
+reservation ? people = reservation.people : people = 0
 //sets errors on form change and pases table information and party size
 useEffect(() => {
     setShowErrors(false);
     setSeatErrors(null);
-    if(table) setSeatErrors(CheckSeatErrors(table, reservation.people));
+    setSeatErrors(CheckSeatErrors(table, people));
   }, [table]);
 
-  let errors;
 
-  if (seatErrors) {
-    errors = seatErrors.map((error, index) => {
-      const formattedError = { message: error };
-      return (
-        <div key={index}>
-          <ErrorAlert error={formattedError} />
-        </div>
-      );
-    });
-  }
 
 async function update(table_id, reservation_id){
 
@@ -74,8 +67,8 @@ async function update(table_id, reservation_id){
 
   const submitHandler = (event) => {
       event.preventDefault();
-      if(errors) setShowErrors(true);
-      update(table.table_id, reservation_id)
+      if(seatErrors) setShowErrors(true);
+      if (table) update(table.table_id, reservation_id)
   }
 
 console.log(table, "table");
@@ -107,7 +100,7 @@ console.log(table, "table");
         </button>
         </form>
          {/* maps errors into ShowErrors */}
-       {showErrors && errors}
+       {showErrors && <MapErrors errors={seatErrors} />}
       </div>
   );
 }

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import {useHistory} from "react-router-dom"
 import {createTable} from "../utils/api";
 import {CheckTableErrors} from "./CheckTableErrors"
-import ErrorAlert from "../layout/ErrorAlert";
+import MapErrors from "../utils/MapErrors";
 
 export default function CreateTable() {
 
@@ -35,21 +35,7 @@ export default function CreateTable() {
     setTableErrors(CheckTableErrors(formData));
   }, [formData]);
 
-
-  //maps each error into ErrorAlert componenet;
-  let errors;
-  if (tableErrors) {
-    errors = tableErrors.map((error, index) => {
-      const formattedError = { message: error };
-      return (
-        <div key={index}>
-          <ErrorAlert error={formattedError} />
-        </div>
-      );
-    });
-  }
-
-
+  
 //sends data to Table API to create new table
   async function newTable(formData) {
     try {
@@ -66,7 +52,6 @@ export default function CreateTable() {
       event.preventDefault();
       console.log(formData)
       if(tableErrors) setShowErrors(true);
-      
       newTable(formData);
   }
 
@@ -108,7 +93,7 @@ export default function CreateTable() {
         </button>
       </form>
        {/* maps errors into ShowErrors */}
-       {showErrors && errors}
+       {showErrors && <MapErrors errors={tableErrors} />}
     </div>
   );
 }

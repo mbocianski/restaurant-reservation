@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { today, next } from "../utils/date-time";
 import {useHistory} from "react-router-dom";
 import { createReservation } from "../utils/api";
-import ErrorAlert from "../layout/ErrorAlert";
+import MapErrors from "../utils/MapErrors";
 import { dayOfWeek } from "../utils/date-time";
 import CheckFormErrors from "./CheckFormErrors";
 
@@ -49,19 +49,6 @@ function ReservationForm({ type }) {
     setReservationsError(null);
     setReservationsError(CheckFormErrors(formData));
   }, [formData]);
-
-  //maps each error into ErrorAlert componenet;
-  let errors;
-  if (reservationsError) {
-    errors = reservationsError.map((error, index) => {
-      const formattedError = { message: error };
-      return (
-        <div key={index}>
-          <ErrorAlert error={formattedError} />
-        </div>
-      );
-    });
-  }
 
 
   //send data to createReservation API function;
@@ -179,7 +166,7 @@ function ReservationForm({ type }) {
         </button>
       </form>
       {/* maps errors into ShowErrors */}
-      {showErrors && errors}
+      {showErrors && <MapErrors errors={reservationsError} />}
     </div>
   );
 }
