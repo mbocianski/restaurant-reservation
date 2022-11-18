@@ -17,7 +17,7 @@ export default function SeatTable() {
   
 
   //loads table and resrervation data
-  useEffect(loadData, []);
+  useEffect(loadData, [reservation_id]);
 
   function loadData() {
     const abortController = new AbortController();
@@ -39,14 +39,13 @@ export default function SeatTable() {
   }
 
 // sets default of people to 0 if reservaiton is not loaded
-let people;
-reservation ? people = reservation.people : people = 0
+let people = reservation ? reservation.people : 0
 //sets errors on form change and pases table information and party size
 useEffect(() => {
     setShowErrors(false);
     setSeatErrors(null);
     setSeatErrors(CheckSeatErrors(table, people));
-  }, [table]);
+  }, [table, people]);
 
 
 
