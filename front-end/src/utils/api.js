@@ -141,13 +141,15 @@ Udates table with reservation_id to assign reservation to table
  */
 
 
-export async function updateTable(table_id, reservation_id){
+export async function updateTable(table_id, reservation_id, method){
   const url = new URL(`${API_BASE_URL}/tables/${table_id}/seat`);
-  console.log("url", url)
+  console.log("Update url", url)
     const options = {
-      method: "PUT",
+      method: method,
       headers,
       body: JSON.stringify({data: {reservation_id: reservation_id}}),
     }
   return await fetchJson(url, options, {});
 }
+
+

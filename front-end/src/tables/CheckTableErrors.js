@@ -13,7 +13,7 @@ function CheckTableErrors(table) {
   return errors;
 }
 
-function CheckSeatErrors(table = null, people = null) {
+function CheckSeatErrors(table = null, people = 0) {
     let errors = [];
   if (!table) {
     errors.push("Please select a table!");

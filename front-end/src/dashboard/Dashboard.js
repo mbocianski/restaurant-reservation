@@ -7,6 +7,7 @@ import { useLocation, Link } from "react-router-dom";
 import { today, previous, next } from "../utils/date-time";
 import useQuery from "../utils/useQuery";
 import { listTables } from "../utils/api";
+import Loading from "./Loading";
 
 /**
  * Defines the dashboard page.
@@ -28,6 +29,9 @@ function Dashboard() {
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
   const [tables, setTables] = useState([]);
+  const [loaded, setLoaded] = useState(false);
+
+
 
   useEffect(loadDashboard, [date]);
 
@@ -37,10 +41,21 @@ function Dashboard() {
     listReservations({ date }, abortController.signal)
       .then(setReservations)
       .catch(setReservationsError);
+    return () => abortController.abort();
+  }
 
+//separate function to tables to pass as props to avoid unecessary reload of reservations
+
+  useEffect(loadTables, [date])
+  function loadTables(){
+    setLoaded(false);
+    const abortController = new AbortController();
     listTables(abortController.signal)
-      .then(setTables)
-      .catch(setReservationsError);
+    .then(setTables)
+    .then(setLoaded(true))
+    .then(console.log("done"))
+    .catch(setReservationsError)
+    
 
     return () => abortController.abort();
   }
@@ -53,6 +68,7 @@ function Dashboard() {
         <h4 className="mb-0">{`Reservations for ${date}`}</h4>
       </div>
       <ErrorAlert error={reservationsError} />
+      {loaded ? 
       <div className="container">
         <div className="row">
           <div className="col-6 border border-solid">
@@ -68,10 +84,10 @@ function Dashboard() {
             </Link>
           </div>
           <div className="col-6 border border-solid">
-          <TablesDash tables={tables} />
+         <TablesDash tables={tables} loadTables={loadTables}/>
           </div>
         </div>
-      </div>
+      </div> : <Loading /> }
     </main>
   );
 }

@@ -18,7 +18,6 @@ export default function CreateTable() {
   const [showErrors, setShowErrors] = useState(false);
   const [tableErrors, setTableErrors] = useState(null);
 
-  console.log("data:", formData)
   //sets state for changes and sets capacity to an integer
   const changeHandler = ({ target }) => {
     setFormData({

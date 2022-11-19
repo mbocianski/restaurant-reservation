@@ -1,5 +1,6 @@
 const service = require("./tables.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
+const { table } = require("../db/connection");
 
 async function list(req, res, next) {
   res.json({ data: await service.list() });
@@ -129,6 +130,17 @@ function tableIsOccupied(req, res, next) {
   next();
 }
 
+async function tableIsNotOccupied(req, res, next) {
+  const table = await service.getTable(res.locals)
+  if (!table.reservation_id) {
+    next({
+      status: 400,
+      message: "Table is not occupied. Please select another table.",
+    });
+  }
+  next();
+}
+
 //updates table with reservation_id when table is seated
 async function update(req, res) {
   const { table_id } = req.params;
@@ -137,6 +149,27 @@ async function update(req, res) {
   res
     .status(200)
     .json({ data: await service.update(table_id, reservation_id) });
+}
+
+
+async function tableExists(req, res, next){
+  const {table_id} = req.params;
+  const table = await service.getTable(table_id);
+  if (!table){
+    next({
+      status: 404,
+      message: `table_id ${table_id} does not exist`
+    })
+  }
+  res.locals = table_id
+  next();
+}
+
+
+async function freeTable(req, res){
+  const { table_id } = req.params;
+  await service.freeTable(table_id);
+  res.status(200).json({message: "Table is now free"})
 }
 
 module.exports = {
@@ -159,4 +192,9 @@ module.exports = {
     tableIsOccupied,
     asyncErrorBoundary(update),
   ],
+  destroy: [
+    asyncErrorBoundary(tableExists),
+    asyncErrorBoundary(tableIsNotOccupied),
+    asyncErrorBoundary(freeTable),
+  ]
 };

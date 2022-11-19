@@ -38,6 +38,15 @@ async function reservationExists(reservation_id) {
     .then((row) => (row[0] ? row[0] : 0));
 }
 
+
+async function freeTable(table_id){
+    return knex("tables")
+      .update({ reservation_id: null })
+      .where("table_id", table_id)
+      .returning("*")
+      .then((row) => row[0]);
+}
+
 module.exports = {
   list,
   create,
@@ -45,4 +54,5 @@ module.exports = {
   getTable,
   reservationExists,
   allIds,
+  freeTable,
 };
