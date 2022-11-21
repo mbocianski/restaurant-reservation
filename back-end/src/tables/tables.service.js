@@ -39,6 +39,7 @@ async function reservationExists(reservation_id) {
 }
 
 
+
 async function freeTable(table_id){
     return knex("tables")
       .update({ reservation_id: null })
@@ -55,4 +56,5 @@ module.exports = {
   reservationExists,
   allIds,
   freeTable,
+
 };
