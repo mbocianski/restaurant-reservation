@@ -47,9 +47,9 @@ export default function SeatTable() {
   }, [table, people]);
 
 
-// Adds a reservation ID to the respective "tables" table. Uses Put since function is used by delete in FreeTable
-  async function update(table_id, reservation_id) {
-    console.log(table_id, reservation_id);
+// Adds a reservation ID to the respective "tables" table and updaetes reservation to "seated" 
+//Uses Put since function is used by delete in unseatTable
+  async function seatTable(table_id, reservation_id) {
     try {
       await updateTable(table_id, Number(reservation_id), "PUT");
       setTable(null);
@@ -59,10 +59,22 @@ export default function SeatTable() {
     }
   }
 
+
+// // sets resrevation sattus to seated
+//   async function seatReservation(reservation_id){
+//     try {
+//       await setReservationStatus(Number(reservation_id), "seated");
+//     } catch (error) {
+//       console.log("api error: ", error.message);
+//     }
+//   }
+
   const submitHandler = (event) => {
     event.preventDefault();
     if (seatErrors) setShowErrors(true);
-    if (table) update(table.table_id, reservation_id);
+    if (table){
+      seatTable(table.table_id, reservation_id);
+    }
   };
 
   console.log(table, "table");

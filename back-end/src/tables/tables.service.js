@@ -12,17 +12,10 @@ async function create(table) {
     .then((table) => table[0]);
 }
 
-async function update(table_id, reservation_id) {
-  return knex("tables")
-    .update({ reservation_id: reservation_id })
-    .where("table_id", table_id)
-    .returning("*")
-    .then((row) => row[0]);
-}
 
 async function getTable(table_id) {
   return knex("tables")
-    .select("capacity", "reservation_id")
+    .select("*")
     .where("table_id", table_id)
     .then((row) => row[0]);
 }
@@ -31,30 +24,60 @@ async function allIds() {
   return knex("reservations").select("reservation_id");
 }
 
-async function reservationExists(reservation_id) {
-  return knex("reservations")
-    .select("reservation_id", "people")
-    .where("reservation_id", reservation_id)
-    .then((row) => (row[0] ? row[0] : 0));
-}
+async function seatTable(table_id, reservation_id){
 
-
-
-async function freeTable(table_id){
+  return  knex.transaction(function(trx){
+    console.log("zz", table_id, reservation_id)
     return knex("tables")
-      .update({ reservation_id: null })
-      .where("table_id", table_id)
-      .returning("*")
-      .then((row) => row[0]);
+     .update( "reservation_id", reservation_id )
+     .where("table_id", table_id)
+     .transacting(trx)
+     .then(function(){
+       return knex("reservations")
+               .update("status", "seated")
+               .where({reservation_id})
+               .transacting(trx)
+       })
+     .then(trx.commit)
+     .catch(trx.rollback)
+ 
+    })
+    .catch(function(error){
+      console.error(error);
+    })
+ }
+
+
+
+async function unseatTable(table_id, reservation_id){
+
+ return  knex.transaction(function(trx){
+
+   return knex("tables")
+    .update( "reservation_id", null )
+    .where("table_id", table_id)
+    .transacting(trx)
+    .then(function(){
+      return knex("reservations")
+              .update("status", "finished")
+              .where({reservation_id})
+              .transacting(trx)
+      })
+    .then(trx.commit)
+    .catch(trx.rollback)
+
+   })
+   .catch(function(error){
+     console.error(error);
+   })
 }
 
 module.exports = {
   list,
   create,
-  update,
   getTable,
-  reservationExists,
   allIds,
-  freeTable,
+  seatTable,
+  unseatTable
 
 };

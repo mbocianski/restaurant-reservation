@@ -1,7 +1,7 @@
 import React from "react";
 import FreeTable from "../tables/FreeTable";
 
-export default function TablesDash({ tables, loadTables}) {
+export default function TablesDash({ tables, loadTables, loadDashboard}) {
   const displayTables = tables.map((table) => {
     return (
       <li
@@ -27,6 +27,7 @@ export default function TablesDash({ tables, loadTables}) {
               table_id={table.table_id}
               reservation_id={table.reservation_id}
               loadTables={loadTables}
+              loadDashboard={loadDashboard}
             />
           ) : null}
         </div>

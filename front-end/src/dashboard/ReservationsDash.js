@@ -2,8 +2,10 @@ import React from "react";
 import { formatAsTime } from "../utils/date-time";
 import { Link } from "react-router-dom";
 
-export default function ReservationsDash({ reservations }) {
-  // const [view, setView] = useState(false);
+
+export default function ReservationsDash({reservations}) {
+
+
 
   //formats reservations as lines with data
   const displayReservations = reservations.map(
@@ -33,12 +35,13 @@ export default function ReservationsDash({ reservations }) {
               <em>{`(Party of ${people})`}</em>{" "}
             </p>
             <p>{`Mobile: ${mobile_number}`}</p>
+            {status === "booked" ? 
             <Link to={`reservations/${reservation_id}/seat`}>
               <button className="btn btn-primary">Seat</button>
-            </Link>
+            </Link> : null }
           </div>
           <span
-            class="badge badge-primary badge-pill p-2"
+            className="badge badge-primary badge-pill p-2"
             data-reservation-id-status={reservation_id}
           >
             {resStatus}

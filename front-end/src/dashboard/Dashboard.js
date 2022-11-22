@@ -72,7 +72,7 @@ function Dashboard() {
       <div className="container">
         <div className="row">
           <div className="col-6 border border-solid">
-           <ReservationsDash reservations={reservations} />
+           <ReservationsDash reservations={reservations} load={loadDashboard} />
             <Link to={`/dashboard?date=${previousDate}`}>
               <button className="btn mx-1 btn-secondary">Previous Day</button>
             </Link>
@@ -84,7 +84,7 @@ function Dashboard() {
             </Link>
           </div>
           <div className="col-6 border border-solid">
-         <TablesDash tables={tables} loadTables={loadTables}/>
+         <TablesDash tables={tables} loadTables={loadTables} loadDashboard={loadDashboard}/>
           </div>
         </div>
       </div> : <Loading /> }

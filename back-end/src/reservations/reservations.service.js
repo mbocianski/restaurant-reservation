@@ -4,7 +4,8 @@ const knex = require("../db/connection");
 async function list(date){
         return knex("reservations")
         .select("*")
-        .where("reservation_date", date)
+        .whereNot("status", "finished")
+        .andWhere("reservation_date", date)
         .orderBy("reservation_time", "asc")
     
    
@@ -23,11 +24,21 @@ async function read(reservation_id){
     return knex("reservations")
     .select("*")
     .where("reservation_id", reservation_id)
-    .then((reservation)=> reservation[0]);
+    .first();
+}
+
+async function setStatus(reservation_id, status){
+
+    return knex("reservations")
+        .update({status: status})
+        .where("reservation_id", reservation_id)
+        .returning("*")
+        .then((row)=> row[0]);
 }
 
 module.exports = {
     list,
     create,
-    read
+    read,
+    setStatus
 }

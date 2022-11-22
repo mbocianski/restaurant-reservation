@@ -19,8 +19,9 @@ function hasData(req, res, next) {
       status: 400,
       message: "Body must contain data",
     });
+  } else {
+    next();
   }
-  next();
 }
 
 //Checks for each property in form
@@ -32,9 +33,10 @@ function hasProperty(property) {
         status: 400,
         message: `Reservation must include ${property}`,
       });
+    } else {
+      res.locals = req.body.data;
+      next();
     }
-    res.locals = req.body.data;
-    next();
   };
 }
 
@@ -62,9 +64,9 @@ function checkDate(req, res, next) {
       status: 400,
       message: "Reservation must be in the future",
     });
+  } else {
+    next();
   }
-
-  next();
 }
 
 //formats time with moment and checks for several time validations
@@ -102,9 +104,9 @@ function checkTime(req, res, next) {
       status: 400,
       message: "We are closed at this time.",
     });
+  } else {
+    next();
   }
-
-  next();
 }
 
 function peopleIsInteger(req, res, next) {
@@ -114,8 +116,21 @@ function peopleIsInteger(req, res, next) {
       status: 400,
       message: "people must be a number and greater than 0",
     });
+  } else {
+    next();
   }
-  next();
+}
+
+function correctSetStatus(req, res, next) {
+  const reservation = res.locals;
+  if (reservation.status === "seated" || reservation.status === "finished") {
+    next({
+      status: 400,
+      message: `new reservations cannot be ${reservation.status}`,
+    });
+  } else {
+    next();
+  }
 }
 
 async function create(req, res) {
@@ -125,19 +140,53 @@ async function create(req, res) {
 
 async function reservationExists(req, res, next) {
   const { reservation_id } = req.params;
-  const reservation = await tableService.reservationExists(reservation_id);
-  if (!reservation.reservation_id) {
+  const reservation = await service.read(reservation_id);
+  if (reservation) {
+    res.locals = reservation;
+    next();
+  } else {
     next({
       status: 404,
       message: `reservation ${reservation_id} does not exist!`,
     });
+   
   }
-  res.locals = reservation_id;
-  next();
 }
 
-async function read(req, res, next) {
-  res.json({ data: await service.read(res.locals) });
+async function read(req, res) {
+  const {reservation_id} = res.locals
+  res.json({ data: await service.read(res.locals.reservation_id) });
+}
+
+function correctStatus(req, res, next) {
+  const { status } = req.body.data;
+  if (status !== "booked" && status !== "seated" && status !== "finished") {
+    next({
+      status: 400,
+      message: `status ${status} is unknown.`,
+    });
+  } else {
+    next();
+  }
+}
+
+async function checkStatus(req, res, next) {
+  const { reservation_id } = res.locals;
+  reservation = await service.read(reservation_id);
+  if (reservation.status === "finished") {
+    next({
+      status: 400,
+      message: "cannot updated finished reservations",
+    });
+  } else {
+  next();
+  }
+}
+
+async function setStatus(req, res) {
+  const { reservation_id } = req.params;
+  const { status } = req.body.data;
+  res.json({ data: await service.setStatus(reservation_id, status) });
 }
 
 module.exports = {
@@ -153,7 +202,15 @@ module.exports = {
     peopleIsInteger,
     checkDate,
     checkTime,
+    correctSetStatus,
     asyncErrorBoundary(create),
   ],
   read: [asyncErrorBoundary(reservationExists), asyncErrorBoundary(read)],
+  setStatus: [
+    hasProperty("status"),
+    asyncErrorBoundary(reservationExists),
+    correctStatus,
+    asyncErrorBoundary(checkStatus),
+    asyncErrorBoundary(setStatus),
+  ],
 };

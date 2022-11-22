@@ -152,4 +152,23 @@ export async function updateTable(table_id, reservation_id, method){
   return await fetchJson(url, options, {});
 }
 
+/*
+Udates reservation status for reservation_id
+* @returns {Promise<[table]>}
+ *  a promise that resolves to a newly created table saved in the database.
+ */
+
+
+export async function setReservationStatus(reservation_id, status){
+  const url = new URL(`${API_BASE_URL}/reservations/${reservation_id}/status`);
+  console.log("Stautus url", url)
+    const options = {
+      method: "PUT",
+      headers,
+      body: JSON.stringify({data: {status: `${status}`}}),
+    }
+  return await fetchJson(url, options, {});
+}
+
+
 
