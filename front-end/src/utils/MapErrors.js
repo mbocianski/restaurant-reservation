@@ -2,7 +2,6 @@ import React from "react"
 import ErrorAlert from "../layout/ErrorAlert";
 
 export default function MapErrors({errors}){
-    console.log("Res Errors", errors)
 
   if (errors) {
     let displayError

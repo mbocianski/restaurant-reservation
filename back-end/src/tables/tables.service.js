@@ -27,7 +27,6 @@ async function allIds() {
 async function seatTable(table_id, reservation_id){
 
   return  knex.transaction(function(trx){
-    console.log("zz", table_id, reservation_id)
     return knex("tables")
      .update( "reservation_id", reservation_id )
      .where("table_id", table_id)

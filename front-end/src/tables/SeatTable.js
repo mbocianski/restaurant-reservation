@@ -46,9 +46,8 @@ export default function SeatTable() {
     setSeatErrors(CheckSeatErrors(table, people));
   }, [table, people]);
 
-
-// Adds a reservation ID to the respective "tables" table and updaetes reservation to "seated" 
-//Uses Put since function is used by delete in unseatTable
+  // Adds a reservation ID to the respective "tables" table and updaetes reservation to "seated"
+  //Uses Put since function is used by delete in unseatTable
   async function seatTable(table_id, reservation_id) {
     try {
       await updateTable(table_id, Number(reservation_id), "PUT");
@@ -59,25 +58,14 @@ export default function SeatTable() {
     }
   }
 
-
-// // sets resrevation sattus to seated
-//   async function seatReservation(reservation_id){
-//     try {
-//       await setReservationStatus(Number(reservation_id), "seated");
-//     } catch (error) {
-//       console.log("api error: ", error.message);
-//     }
-//   }
-
   const submitHandler = (event) => {
     event.preventDefault();
     if (seatErrors) setShowErrors(true);
-    if (table){
+    if (table) {
       seatTable(table.table_id, reservation_id);
     }
   };
 
-  console.log(table, "table");
   // maps table data to create options for the form.
   const formOptions = allTables.map((table) => {
     return (

@@ -195,9 +195,7 @@ async function tableIsNotOccupied(req, res, next) {
 
 async function unseatTable(req, res) {
   const { table_id, reservation_id } = res.locals;
-  console.log("table", table_id, reservation_id)
   const newReservation = await service.unseatTable(Number(table_id), Number(reservation_id));
-  console.log("news", newReservation);
   res.status(200).json({});
 }
 
