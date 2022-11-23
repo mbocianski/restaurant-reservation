@@ -6,11 +6,17 @@ async function list(date){
         .select("*")
         .whereNot("status", "finished")
         .andWhere("reservation_date", date)
-        .orderBy("reservation_time", "asc")
-    
-   
-       
+        .orderBy("reservation_time", "asc")       
 }
+
+async function search(mobile_number) {
+    return knex("reservations")
+      .whereRaw(
+        "translate(mobile_number, '() -', '') like ?",
+        `%${mobile_number.replace(/\D/g, "")}%`
+      )
+      .orderBy("reservation_date");
+  }
 
 async function create(reservation){
     return knex("reservations")
@@ -40,5 +46,6 @@ module.exports = {
     list,
     create,
     read,
-    setStatus
+    setStatus,
+    search
 }

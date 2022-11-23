@@ -8,8 +8,11 @@ const tableService = require("../tables/tables.service");
  * List handler for reservation resources
  */
 async function list(req, res) {
-  const { date } = req.query;
-  res.json({ data: await service.list(date) });
+  if (req.query.mobile_number) {
+    res.json({ data: await service.search(req.query.mobile_number) });
+  } else {
+    res.json({ data: await service.list(req.query.date) });
+  }
 }
 
 //Checks if request contains data
@@ -149,12 +152,11 @@ async function reservationExists(req, res, next) {
       status: 404,
       message: `reservation ${reservation_id} does not exist!`,
     });
-   
   }
 }
 
 async function read(req, res) {
-  const {reservation_id} = res.locals
+  const { reservation_id } = res.locals;
   res.json({ data: await service.read(res.locals.reservation_id) });
 }
 
@@ -179,7 +181,7 @@ async function checkStatus(req, res, next) {
       message: "cannot updated finished reservations",
     });
   } else {
-  next();
+    next();
   }
 }
 
