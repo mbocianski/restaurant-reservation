@@ -52,12 +52,13 @@ export default function SeatTable() {
     try {
       await updateTable(table_id, Number(reservation_id), "PUT");
       setTable(null);
-      history.push("/dashboard");
+      history.push(`/dashboard?date=${reservation.reservation_date}`);
     } catch (error) {
       console.log("api error: ", error.message);
     }
   }
 
+  // submit form, prevent reload and seat table. 
   const submitHandler = (event) => {
     event.preventDefault();
     if (seatErrors) setShowErrors(true);

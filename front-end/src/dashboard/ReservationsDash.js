@@ -10,6 +10,7 @@ export default function ReservationsDash({reservations}) {
   //formats reservations as lines with data
   const displayReservations = reservations.map(
     ({
+      reservation_date,
       reservation_time,
       reservation_id,
       mobile_number,
