@@ -87,14 +87,11 @@ function ReservationForm({ type }) {
       await createReservation(formData);
 
       const toDate = formData.reservation_date;
-      setFormData(initialFormData);
       history.push(`/dashboard?date=${toDate}`);
     } catch (error) {
       console.log("api error: ", error.message)
     }
   }
-
-
 
   const submitHandler = (event) => {
     if (reservationsError)setShowErrors(true)
