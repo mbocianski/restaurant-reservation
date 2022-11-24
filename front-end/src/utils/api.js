@@ -106,6 +106,25 @@ export async function createReservation(reservation){
 
 
 /**
+ * Sets the status of reservation with :reservation_id
+ * @returns {Promise<[reservation]>}
+ *  a promise that resolves to a possibly empty array of reservation saved in the database.
+ */
+
+ export async function setReservationStatus(params) {
+  const url = new URL(`${API_BASE_URL}/reservations/${params}/status`);
+  console.log("Update Status URL", url)
+    const options = {
+      method: "PUT",
+      headers,
+      body: JSON.stringify({data: {status: "cancelled"}}),
+    }
+  return await fetchJson(url, options, {})
+}
+
+
+
+/**
  * Retrieves all existing tables.
  * @returns {Promise<[table]>}
  *  a promise that resolves to a possibly empty array of table saved in the database.

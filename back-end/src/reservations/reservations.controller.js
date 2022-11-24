@@ -124,7 +124,7 @@ function peopleIsInteger(req, res, next) {
   }
 }
 
-function correctSetStatus(req, res, next) {
+function correctNewStatus(req, res, next) {
   const reservation = res.locals;
   if (reservation.status === "seated" || reservation.status === "finished") {
     next({
@@ -162,7 +162,7 @@ async function read(req, res) {
 
 function correctStatus(req, res, next) {
   const { status } = req.body.data;
-  if (status !== "booked" && status !== "seated" && status !== "finished") {
+  if (status !== "booked" && status !== "seated" && status !== "finished" && status !=="cancelled") {
     next({
       status: 400,
       message: `status ${status} is unknown.`,
@@ -204,7 +204,7 @@ module.exports = {
     peopleIsInteger,
     checkDate,
     checkTime,
-    correctSetStatus,
+    correctNewStatus,
     asyncErrorBoundary(create),
   ],
   read: [asyncErrorBoundary(reservationExists), asyncErrorBoundary(read)],

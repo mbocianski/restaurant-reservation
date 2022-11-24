@@ -7,6 +7,6 @@ p {
   margin: 5px;
 }
 
-.btn {
+.btn, Link {
   padding:10px;
 }

@@ -72,7 +72,7 @@ function Dashboard() {
       <div className="container">
         <div className="row">
           <div className="col-6 border border-solid">
-           <ReservationsDash reservations={reservations} load={loadDashboard} />
+           <ReservationsDash reservations={reservations} loadDashboard={loadDashboard} />
             <Link to={`/dashboard?date=${previousDate}`}>
               <button className="btn mx-1 btn-secondary">Previous Day</button>
             </Link>

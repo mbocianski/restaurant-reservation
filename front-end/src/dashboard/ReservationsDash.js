@@ -1,12 +1,9 @@
 import React from "react";
 import { formatAsTime } from "../utils/date-time";
 import { Link } from "react-router-dom";
+import CancelReservation from "../reservations/CancelReservation";
 
-
-export default function ReservationsDash({reservations}) {
-
-
-
+export default function ReservationsDash({ reservations, loadDashboard }) {
   //formats reservations as lines with data
   const displayReservations = reservations.map(
     ({
@@ -20,6 +17,34 @@ export default function ReservationsDash({reservations}) {
     }) => {
       // capitalizes first letter of status
       const resStatus = status.charAt(0).toUpperCase() + status.slice(1);
+
+      //local function for buttons
+      function ReservationButtons() {
+        return (
+          <div className="d-flex flex-row justify-content-around">
+            {status === "booked" ? (
+              <div>
+                <Link to={`reservations/${reservation_id}/seat`}>
+                  <button className="btn btn-primary">Seat</button>
+                </Link>
+              </div>
+            ) : null}
+             <div>
+                <Link to={`reservations/${reservation_id}/edit`}>
+                  <button className="btn btn-secondary">Edit</button>
+                </Link>
+              </div>
+            {status !== "cancelled" ? (
+              <div>
+                 <CancelReservation reservation_id={reservation_id} loadDashboard={loadDashboard} />
+              </div>
+            ) : null}
+          </div>
+        );
+      }
+
+
+
 
       return (
         <li
@@ -35,11 +60,9 @@ export default function ReservationsDash({reservations}) {
               <em>{`(Party of ${people})`}</em>{" "}
             </p>
             <p>{`Mobile: ${mobile_number}`}</p>
-            {status === "booked" ? 
-            <Link to={`reservations/${reservation_id}/seat`}>
-              <button className="btn btn-primary">Seat</button>
-            </Link> : null }
+            <ReservationButtons />
           </div>
+
           <span
             className="badge badge-primary badge-pill p-2"
             data-reservation-id-status={reservation_id}
