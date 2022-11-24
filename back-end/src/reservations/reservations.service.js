@@ -1,3 +1,4 @@
+const { returning } = require("../db/connection");
 const knex = require("../db/connection");
 
 
@@ -34,10 +35,31 @@ async function read(reservation_id){
 }
 
 async function setStatus(reservation_id, status){
-
     return knex("reservations")
         .update({status: status})
         .where("reservation_id", reservation_id)
+        .returning("*")
+        .then((row)=> row[0]);
+}
+
+async function updateReservation(reservation_id, reservation){
+    const {
+        first_name, 
+        last_name, 
+        mobile_number, 
+        people,
+        reservation_date,
+        reservation_time
+    } = reservation
+
+    return knex("reservations")
+        .update({first_name})
+        .update({last_name}) 
+        .update({mobile_number})
+        .update({people}) 
+        .update({reservation_date})
+        .update({reservation_time})
+        .where({reservation_id})
         .returning("*")
         .then((row)=> row[0]);
 }
@@ -47,5 +69,6 @@ module.exports = {
     create,
     read,
     setStatus,
-    search
+    search,
+    updateReservation
 }

@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { today, next } from "../utils/date-time";
-import {useHistory} from "react-router-dom";
-import { createReservation } from "../utils/api";
+import {useHistory, useParams} from "react-router-dom";
+import { createReservation, readReservation, updateReservation } from "../utils/api";
 import MapErrors from "../utils/MapErrors";
 import { dayOfWeek } from "../utils/date-time";
 import CheckFormErrors from "./CheckFormErrors";
 
-
 function ReservationForm({ type }) {
   const history = useHistory();
   let initialFormData;
+  const { reservation_id } = useParams();
+
 
   //sets reservation date for tomorrow, or two days out of tommorrow is a Tuesday
   const firstDate = () => {
@@ -19,8 +20,7 @@ function ReservationForm({ type }) {
     return next(today());
   };
 
-  if (type === "new") {
-    initialFormData = {
+   initialFormData = {
       first_name: "",
       last_name: "",
       mobile_number: "",
@@ -28,11 +28,39 @@ function ReservationForm({ type }) {
       reservation_time: "",
       people: 0,
     };
-  }
 
   const [formData, setFormData] = useState(initialFormData);
   const [reservationsError, setReservationsError] = useState(null);
   const [showErrors, setShowErrors] = useState(false);
+
+
+  //loads table and resrervation data if editing
+  useEffect(()=>{
+
+  // will load in existing reservation if type = edit
+  async function loadData() {
+    const abortController = new AbortController();
+    setReservationsError(null);
+
+    const data = await readReservation(reservation_id, abortController.signal)
+
+    setFormData({
+        first_name: data.first_name,
+        last_name: data.last_name,
+        mobile_number: data.mobile_number,
+        reservation_date: data.reservation_date,
+        reservation_time: data.reservation_time,
+        people: data.people,
+        status: data.status
+
+      });
+      return () => abortController.abort();
+    }
+
+  if (type === "edit") loadData();
+  
+
+},[reservation_id, type])
 
   //updates form as user types
   const changeHandler = ({ target }) => {
@@ -51,11 +79,13 @@ function ReservationForm({ type }) {
   }, [formData]);
 
 
-  //send data to createReservation API function;
+  //send data to createReservation or updateReservation API function;
 
-  async function newReservation(formData) {
+  async function sendReservation(formData) {
     try {
+      (type === "edit") ? await updateReservation(formData, reservation_id) :
       await createReservation(formData);
+
       const toDate = formData.reservation_date;
       setFormData(initialFormData);
       history.push(`/dashboard?date=${toDate}`);
@@ -64,10 +94,12 @@ function ReservationForm({ type }) {
     }
   }
 
+
+
   const submitHandler = (event) => {
     if (reservationsError)setShowErrors(true)
     event.preventDefault();
-    newReservation(formData);
+    sendReservation(formData);
   }
 
   return (

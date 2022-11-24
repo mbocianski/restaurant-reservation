@@ -105,6 +105,25 @@ export async function createReservation(reservation){
 }
 
 
+
+/*
+Updaets reservation
+* @returns {Promise<[reservation]>}
+ *  a promise that resolves to an updated reservation saved in the database.
+ */
+
+
+export async function updateReservation(reservation, reservation_id){
+  const url = new URL(`${API_BASE_URL}/reservations/${reservation_id}`);
+  console.log("Updating", url)
+    const options = {
+      method: "PUT",
+      headers,
+      body: JSON.stringify({data: reservation}),
+    }
+  return await fetchJson(url, options, {});
+}
+
 /**
  * Sets the status of reservation with :reservation_id
  * @returns {Promise<[reservation]>}

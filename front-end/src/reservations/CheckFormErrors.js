@@ -9,6 +9,7 @@ export default function checkFormErrors(formData) {
       mobile_number, 
       reservation_date, 
       reservation_time, 
+      status
       } = formData
 
 
@@ -33,6 +34,9 @@ export default function checkFormErrors(formData) {
   if (formData.people < 1){
     errors.push("Must have at least 1 person in your party")
 }
+  if (status !== "booked"){
+    errors.push("Only reservations with 'booked' status can be updated")
+  }
 
   // Error handling for resrvation time
   const format = "hh:mm";

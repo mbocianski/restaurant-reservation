@@ -191,6 +191,24 @@ async function setStatus(req, res) {
   res.json({ data: await service.setStatus(reservation_id, status) });
 }
 
+function checkIfBooked(req, res, next){
+  const {status} = res.locals;
+  if (status !== "booked"){
+    next({
+      status: 404,
+      message: "Only reservations with 'booked' status can be updated"
+    })
+  }else{
+    next();
+  }
+}
+
+async function updateReservation(req, res){
+  const {reservation_id} = req.params;
+  const reservation = res.locals;
+  res.json({data: await service.updateReservation(reservation_id, reservation)})
+}
+
 module.exports = {
   list: asyncErrorBoundary(list),
   create: [
@@ -215,4 +233,18 @@ module.exports = {
     asyncErrorBoundary(checkStatus),
     asyncErrorBoundary(setStatus),
   ],
+  update: [
+    hasData,
+    hasProperty("first_name"),
+    hasProperty("last_name"),
+    hasProperty("mobile_number"),
+    hasProperty("reservation_date"),
+    hasProperty("reservation_time"),
+    hasProperty("people"),
+    peopleIsInteger,
+    checkDate,
+    checkTime,
+    checkIfBooked,
+    asyncErrorBoundary(updateReservation)
+  ]
 };

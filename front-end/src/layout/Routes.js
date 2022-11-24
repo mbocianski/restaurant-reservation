@@ -36,6 +36,9 @@ function Routes() {
       <Route path="/reservations/:reservation_id/seat">
         <SeatTable />
       </Route>
+      <Route path="/reservations/:reservation_id/edit">
+      <ReservationForm type={"edit"} />
+      </Route>
       <Route>
         <Search />
       </Route>
