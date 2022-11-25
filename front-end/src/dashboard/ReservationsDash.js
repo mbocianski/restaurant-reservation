@@ -37,7 +37,7 @@ export default function ReservationsDash({ reservations, loadDashboard }) {
               </>
             ) : null}
            
-            {status !== "cancelled" ? (
+            {status === "booked" ? (
               <div>
                  <CancelReservation reservation_id={reservation_id} loadDashboard={loadDashboard} />
               </div>
