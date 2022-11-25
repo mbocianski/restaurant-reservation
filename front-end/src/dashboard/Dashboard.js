@@ -63,9 +63,9 @@ function Dashboard() {
 
   return (
     <main>
-      <h1>Dashboard</h1>
+      <h2>Dashboard</h2>
       <div className="d-md-flex mb-3">
-        <h4 className="mb-0">{`Reservations for ${date}`}</h4>
+        <h3 className="mb-0">{`Reservations for ${date}`}</h3>
       </div>
       <ErrorAlert error={reservationsError} />
       {loaded ? 

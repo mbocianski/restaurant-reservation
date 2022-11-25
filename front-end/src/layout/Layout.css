@@ -1,12 +1,49 @@
-.side-bar {
-  background-color: #393a44;
-  min-width: 200px;
+
+/* Menu Styling */
+.menu {
+  background-image: linear-gradient(to right, #111111, #444444);
+  
 }
 
+.navbar-brand {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 40px;
+  color: #55E6EB;
+}
+
+.nav-link{
+  color: #EBD13D
+}
+
+.custom-toggler .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(235,209,261, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+}
+
+.custom-toggler .navbar-toggler {
+  border-color: rgb(235,209, 61);
+} 
+
+
+
+/* Main Page Stylings */
+
+html, .main-pages{
+background: #333333
+}
+
+
+/* Global Styles */
 p {
   margin: 5px;
+  font-family: 'Hind', sans-serif;
 }
 
-.btn, Link {
+h1, h2, h3, button{
+  color: #ffffff;
+  font-family: 'Archivo', sans-serif;
+}
+
+.btn {
   padding:10px;
 }
+
