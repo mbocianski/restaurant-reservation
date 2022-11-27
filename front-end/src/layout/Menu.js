@@ -36,7 +36,7 @@ function Menu() {
             <span className="navbar-toggler-icon"></span>
           </button>
         <div className={`${isNavCollapsed ? 'collapse' : ''} navbar-collapse`}  id="navbarNavAltMarkup">
-          <div className="navbar-nav">
+          <div className="navbar-nav pl-3">
               <Link className="nav-link nav-item active" to="/dashboard">
                 <span className="oi oi-dashboard" />
                 &nbsp;Dashboard

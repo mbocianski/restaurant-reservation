@@ -1,4 +1,7 @@
 
+
+
+
 /* Menu Styling */
 .menu {
   background-image: linear-gradient(to right, #111111, #444444);
@@ -26,10 +29,11 @@
 
 
 /* Main Page Stylings */
-
 html, main, .main-pages{
-background: #333333
+background-image:url(https://www.toptal.com/designers/subtlepatterns/uploads/diagmonds.png)
 }
+
+
 
 
 /* Global Styles */
@@ -43,7 +47,29 @@ h1, h2, h3, button{
   font-family: 'Archivo', sans-serif;
 }
 
+h2 {
+  font-size: 7vh
+}
+
 .btn {
   padding:10px;
 }
 
+.btn-primary {
+  background-color: #EB6CC1;
+  border-color: #EB6CC1
+}
+
+.btn-primary:hover {
+  background-color: #d160ab;
+  border-color: #d160ab
+}
+
+
+ 
+/* Small screen devices (600px and above) */
+@media only screen and (max-width: 600px) {
+  .navbar-brand {
+    font-size: 30px;
+  }
+}

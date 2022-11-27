@@ -13,14 +13,14 @@ import "./Layout.css";
  */
 function Layout() {
   return (
-    <div className="container-fluid main-pages mb-0">
+    <div className="container-fluid main-pages mb-0 px-0">
       <div className="row h-100">
         <div className="col menu">
           <Menu />
         </div>
       </div>
-      <div className="row">
-        <div className="col">
+      <div className="row m-0">
+        <div className="col m-0">
           <Routes />
         </div>
       </div>
