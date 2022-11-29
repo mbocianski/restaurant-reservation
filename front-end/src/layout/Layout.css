@@ -30,7 +30,8 @@
 
 /* Main Page Stylings */
 html, main, .main-pages{
-background-image:url(https://www.toptal.com/designers/subtlepatterns/uploads/diagmonds.png)
+background-image:url(https://www.toptal.com/designers/subtlepatterns/uploads/diagmonds.png);
+overflow-x: hidden;
 }
 
 
@@ -51,18 +52,39 @@ h2 {
   font-size: 7vh
 }
 
-.btn {
-  padding:10px;
+h3 {
+  font-size: 5vh;
 }
 
-.btn-primary {
+.btn {
+  padding:10px;
+  margin: 0 5px;
+}
+
+.btn:focus{
+  box-shadow: none;
+}
+
+.btn-primary, .btn-primary:focus, .btn-primary:active {
   background-color: #EB6CC1;
+
   border-color: #EB6CC1
+  
 }
 
 .btn-primary:hover {
   background-color: #d160ab;
   border-color: #d160ab
+}
+
+li, ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.slight-buffer{
+  margin-top:6px
 }
 
 
@@ -71,5 +93,9 @@ h2 {
 @media only screen and (max-width: 600px) {
   .navbar-brand {
     font-size: 30px;
+  }
+
+  h3 {
+    font-size: 3vh;
   }
 }

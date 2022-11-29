@@ -5,7 +5,7 @@ export default function TablesDash({ tables, loadTables, loadDashboard}) {
   const displayTables = tables.map((table) => {
     return (
       <li
-        className="list-group-item d-flex justify-content-around"
+        className="card-body d-flex justify-content-around"
         key={table.table_id}
       >
         <div>
@@ -37,7 +37,7 @@ export default function TablesDash({ tables, loadTables, loadDashboard}) {
 
   return (
     <div className="my-3">
-      {tables.length < 1 ? <h3>No Tables Exist</h3> : <ul>{displayTables}</ul>}
+      {tables.length < 1 ? <h3>No Tables Exist</h3> : <ul className="card text-white bg-dark">{displayTables}</ul>}
     </div>
   );
 }

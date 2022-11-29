@@ -21,57 +21,74 @@ export default function ReservationsDash({ reservations, loadDashboard }) {
       //local function for buttons
       function ReservationButtons() {
         return (
-          <div className="d-flex flex-row justify-content-around">
+          <div className="d-flex flex-row">
             {status === "booked" ? (
               <>
-              <div>
-                <Link to={`reservations/${reservation_id}/seat`}>
-                  <button className="btn btn-primary">Seat</button>
-                </Link>
-              </div>
                 <div>
-                <Link to={`reservations/${reservation_id}/edit`}>
-                  <button className="btn btn-secondary">Edit</button>
-                </Link>
-              </div>
+                  <Link to={`reservations/${reservation_id}/seat`}>
+                    <button className="btn btn-primary">Seat</button>
+                  </Link>
+                </div>
+                <div>
+                  <Link to={`reservations/${reservation_id}/edit`}>
+                    <button className="btn btn-secondary">Edit</button>
+                  </Link>
+                </div>
               </>
-            ) : null}
-           
+            ) : (
+              <div></div>
+            )}
+
             {status === "booked" ? (
               <div>
-                 <CancelReservation reservation_id={reservation_id} loadDashboard={loadDashboard} />
+                <CancelReservation
+                  reservation_id={reservation_id}
+                  loadDashboard={loadDashboard}
+                />
               </div>
-            ) : null}
+            ) : (
+              <div></div>
+            )}
           </div>
         );
       }
 
-
-
-
       return (
-        <li
-          className="list-group-item d-flex justify-content-between align-items-center"
-          key={reservation_id}
-        >
-          <div>
-            <p>
-              <strong>{`${formatAsTime(reservation_time)}`}</strong>
-            </p>
-            <p>
-              {`${first_name} ${last_name} `}
-              <em>{`(Party of ${people})`}</em>{" "}
-            </p>
-            <p>{`Mobile: ${mobile_number}`}</p>
-            <ReservationButtons />
-          </div>
+        <li className="card text-white bg-dark mt-3" key={reservation_id}>
+          <div className="card-body container ">
+            <div className="card-text row pr-4">
+              <div className="col-9 col-md-10">
+                <div className="row">
+                <div className="col-12 col-md-3 my-auto">
+                  <h4>
+                    <strong>{`${formatAsTime(reservation_time)}`}</strong>
+                  </h4>
+                </div>
+                <div className="col-12 col-md-3 my-auto">
+                  
+                <p><h5>
+                    {`${first_name} ${last_name} `}</h5>
+                    <em>{`( Party of ${people} )`}</em>
+                  </p>
+                  
+                  <p>{`Mobile: ${mobile_number}`}</p>
+                </div>
 
-          <span
-            className="badge badge-primary badge-pill p-2"
-            data-reservation-id-status={reservation_id}
-          >
-            {resStatus}
-          </span>
+                <div className="col-12 col-md-5 my-auto">
+                  <ReservationButtons />
+                </div>
+              </div>
+              </div>
+              <div className="col-3 col-md-2 my-auto">
+                <span
+                  className="badge badge-primary badge-pill p-3"
+                  data-reservation-id-status={reservation_id}
+                >
+                  {resStatus}
+                </span>
+              </div>
+            </div>
+          </div>
         </li>
       );
     }
@@ -80,7 +97,9 @@ export default function ReservationsDash({ reservations, loadDashboard }) {
   return (
     <div className="my-3">
       {reservations.length < 1 ? (
-        <h3>No Reservations Today</h3>
+        <div className="card text-white bg-danger text-center">
+          <h3 className="card-body my-0">No Reservations Today</h3>
+        </div>
       ) : (
         <ul>{displayReservations}</ul>
       )}
