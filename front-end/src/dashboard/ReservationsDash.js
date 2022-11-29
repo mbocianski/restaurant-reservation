@@ -18,6 +18,26 @@ export default function ReservationsDash({ reservations, loadDashboard }) {
       // capitalizes first letter of status
       const resStatus = status.charAt(0).toUpperCase() + status.slice(1);
 
+      //set badge color
+
+      let badgeColor;
+      switch (status) {
+        case "booked":
+          badgeColor = "badge-light";
+          break;
+        case "seated":
+          badgeColor = "badge-primary";
+          break;
+        case "finished":
+          badgeColor = "badge-success";
+          break;
+        case "cancelled":
+          badgeColor = "badge-danger";
+          break;
+        default:
+          badgeColor = "badge-light";
+      }
+
       //local function for buttons
       function ReservationButtons() {
         return (
@@ -54,35 +74,34 @@ export default function ReservationsDash({ reservations, loadDashboard }) {
       }
 
       return (
-        <li className="card text-white bg-dark mt-3" key={reservation_id}>
+        <li className="card text-white bg-dark mb-5 px-2" key={reservation_id}>
           <div className="card-body container ">
             <div className="card-text row pr-4">
               <div className="col-9 col-md-10">
                 <div className="row">
-                <div className="col-12 col-md-3 my-auto">
-                  <h4>
-                    <strong>{`${formatAsTime(reservation_time)}`}</strong>
-                  </h4>
-                </div>
-                <div className="col-12 col-md-3 my-auto">
-                  
-                <p><h5>
-                    {`${first_name} ${last_name} `}</h5>
-                    <em>{`( Party of ${people} )`}</em>
-                  </p>
-                  
-                  <p>{`Mobile: ${mobile_number}`}</p>
-                </div>
+                  <div className="col-12 col-md-3 my-auto">
+                    <h4>
+                      <strong>{`${formatAsTime(reservation_time)}`}</strong>
+                    </h4>
+                  </div>
+                  <div className="col-12 col-md-3 my-auto">
+                    <p>
+                      <h5>{`${first_name} ${last_name} `}</h5>
+                      <em>{`( Party of ${people} )`}</em>
+                    </p>
 
-                <div className="col-12 col-md-5 my-auto">
-                  <ReservationButtons />
+                    <p>{`Mobile: ${mobile_number}`}</p>
+                  </div>
+
+                  <div className="col-12 col-md-5 my-auto">
+                    <ReservationButtons />
+                  </div>
                 </div>
-              </div>
               </div>
               <div className="col-3 col-md-2 my-auto">
                 <span
-                  className="badge badge-primary badge-pill p-3"
-                  data-reservation-id-status={reservation_id}
+                  className={`badge ${badgeColor} badge-pill p-3
+                  data-reservation-id-status={reservation_id}`}
                 >
                   {resStatus}
                 </span>

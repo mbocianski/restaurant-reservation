@@ -62,7 +62,7 @@ function Dashboard() {
       <div className="container-fluid px-3 mt-5">
         <div className="row my-4">
           <div className="col text-center ">
-            <h2 className="">Dashboard</h2>
+            <h2>Dashboard</h2>
           </div>
         </div>
         <div>
@@ -109,7 +109,7 @@ function Dashboard() {
               )}
             </div>
 
-            <div className="col-12 col-lg-4 mt-5 pt-4">
+            <div className="col-12 col-lg-4 mt-lg-5 pt-lg-4">
               <div className="row slight-buffer">
                 <div className="col text-center">
                   <h3>

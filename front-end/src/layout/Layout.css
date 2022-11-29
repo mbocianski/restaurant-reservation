@@ -65,17 +65,21 @@ h3 {
   box-shadow: none;
 }
 
-.btn-primary, .btn-primary:focus, .btn-primary:active {
-  background-color: #EB6CC1;
+.card{
+  box-shadow: 0 0 7px .1px #ebd13d8a;
 
-  border-color: #EB6CC1
+}
+
+/* .btn-primary, .btn-primary:focus, .btn-primary:active {
+  background-color: #54E6EB;
+  border-color: #54E6EB
   
 }
 
 .btn-primary:hover {
-  background-color: #d160ab;
-  border-color: #d160ab
-}
+  background-color: #47c3c7;
+  border-color: #47c3c7
+} */
 
 li, ul {
   margin: 0;
@@ -87,7 +91,15 @@ li, ul {
   margin-top:6px
 }
 
+/* change form labels to white */
+form, input, label, p {
+  color:#ffffff;
 
+}
+
+.form-outline{
+  width:25%
+}
  
 /* Small screen devices (600px and above) */
 @media only screen and (max-width: 600px) {

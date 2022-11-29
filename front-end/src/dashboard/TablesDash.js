@@ -5,18 +5,20 @@ export default function TablesDash({ tables, loadTables, loadDashboard}) {
   const displayTables = tables.map((table) => {
     return (
       <li
-        className="card-body d-flex justify-content-around"
+        className="card text-white bg-dark mb-5 px-2"
         key={table.table_id}
       >
-        <div>
-          <p>
+        <div className="card-body">
+        <div className="row mx-xl-4 mx-md-4">
+        <div className="col-6 my-auto">
+          <h4>
             <strong>{table.table_name}</strong>
-          </p>
+          </h4>
           <p>
             <em>{`${table.capacity} seats`}</em>
           </p>
         </div>
-        <div className="my-auto" style={{ fontSize: "20px" }}>
+        <div className="my-auto text-right col-6" style={{ fontSize: "20px" }}>
           <strong>
             <p data-table-id-status={`${table.table_id}`}>
               {table.reservation_id ? "Occupied" : "Free"}
@@ -31,13 +33,15 @@ export default function TablesDash({ tables, loadTables, loadDashboard}) {
             />
           ) : null}
         </div>
+        </div>
+        </div> 
       </li>
     );
   });
 
   return (
     <div className="my-3">
-      {tables.length < 1 ? <h3>No Tables Exist</h3> : <ul className="card text-white bg-dark">{displayTables}</ul>}
+      {tables.length < 1 ? <h3>No Tables Exist</h3> : <ul>{displayTables}</ul>}
     </div>
   );
 }

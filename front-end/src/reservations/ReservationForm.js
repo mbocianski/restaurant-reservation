@@ -100,10 +100,13 @@ function ReservationForm({ type }) {
   }
 
   return (
-    <div>
+    <div className="m-5">
       <h2>New Reservation</h2>
+       {/* maps errors into ShowErrors */}
+       {showErrors && <MapErrors errors={reservationsError} />}
       <form onSubmit={submitHandler}>
-        <div className="mb-3">
+        <div className="form-row">
+        <div className="mb-3 col-12 col-md-6">
           <label className="form-label" htmlFor="first_name">
             First Name:
           </label>
@@ -116,7 +119,7 @@ function ReservationForm({ type }) {
             onChange={changeHandler}
           />
         </div>
-        <div className="mb-3">
+        <div className="mb-3 col-12 col-md-6">
           <label className="form-label" htmlFor="last_name">
             Last Name:
           </label>
@@ -129,7 +132,7 @@ function ReservationForm({ type }) {
             onChange={changeHandler}
           />
         </div>
-        <div className="mb-3">
+        <div className="mb-3 col-6 col-md-4">
           <label className="form-label" htmlFor="mobile_number">
             Mobile Number:
           </label>
@@ -143,9 +146,10 @@ function ReservationForm({ type }) {
             onChange={changeHandler}
           />
         </div>
-        <div className="mb-3">
+        <div className="mb-3 col-6 col-md-4">
           <label className="form-label" htmlFor="people">
             Number of People:
+            </label>
             <input
               className="form-control"
               id="people"
@@ -155,9 +159,9 @@ function ReservationForm({ type }) {
               value={formData.people}
               onChange={changeHandler}
             />
-          </label>
+          
         </div>
-        <div className="mb-3">
+        <div className="mb-3 col-6 col-md-4">
           <label className="form-label" htmlFor="reservation_date">
             Date of Reservation:
           </label>
@@ -172,7 +176,7 @@ function ReservationForm({ type }) {
             onChange={changeHandler}
           />
         </div>
-        <div className="mb-3">
+        <div className="mb-3 col-6 col-md-4">
           <label className="form-label" htmlFor="reservation_time">
             Time of Reservation:
           </label>
@@ -187,6 +191,7 @@ function ReservationForm({ type }) {
             onChange={changeHandler}
           />
         </div>
+        </div>
         <button type="button" onClick={() => history.goBack()} className="btn btn-secondary">
           Cancel
         </button>
@@ -194,8 +199,6 @@ function ReservationForm({ type }) {
           Submit
         </button>
       </form>
-      {/* maps errors into ShowErrors */}
-      {showErrors && <MapErrors errors={reservationsError} />}
     </div>
   );
 }
