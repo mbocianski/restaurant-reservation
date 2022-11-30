@@ -31,6 +31,7 @@
 /* Main Page Stylings */
 html, body, .main-pages{
 background-image:url("../images/diagmonds.png");
+background-color: #111111;
 overflow-x: hidden;
 width:100%;
 height: 100%;
