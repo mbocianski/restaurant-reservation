@@ -100,8 +100,7 @@ export default function ReservationsDash({ reservations, loadDashboard }) {
               </div>
               <div className="col-3 col-md-2 my-auto">
                 <span
-                  className={`badge ${badgeColor} badge-pill p-3
-                  data-reservation-id-status={reservation_id}`}
+                  className={`data-reservation-id-status=${reservation_id}`}
                 >
                   {resStatus}
                 </span>
