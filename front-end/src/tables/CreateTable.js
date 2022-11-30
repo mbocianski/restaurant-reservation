@@ -55,7 +55,9 @@ export default function CreateTable() {
   }
 
   return (
-    <div>
+    <div className="container mt-5">
+      <div className="row">
+        <div className="col-12 col-lg-6">
       <h2>Create Table</h2>
       <form onSubmit={submitHandler}>
         <div className="mb-3">
@@ -74,6 +76,7 @@ export default function CreateTable() {
         <div className="mb-3">
           <label className="form-label" htmlFor="capacity">
             Capacity:
+            </label>
             <input
               className="form-control"
               id="capacity"
@@ -82,9 +85,9 @@ export default function CreateTable() {
               value={formData.capacity}
               onChange={changeHandler}
             />
-          </label>
+         
         </div>
-        <button type="button" onClick={()=> history.goBack()} className="btn btn-secondary">
+        <button type="button" onClick={()=> history.goBack()} className="btn btn-secondary mx-auto">
           Cancel
         </button>
         <button className="btn btn-primary" type="submit" value="submit">
@@ -93,6 +96,8 @@ export default function CreateTable() {
       </form>
        {/* maps errors into ShowErrors */}
        {showErrors && <MapErrors errors={tableErrors} />}
+       </div>
+      </div>
     </div>
   );
 }
