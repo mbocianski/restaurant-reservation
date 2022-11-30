@@ -79,9 +79,10 @@ export default function SeatTable() {
 
   return (
     <div className="contianer mt-5">
-      <div className="row">
-        <div className="col-12">
-          <h2>{`Select a table for reservation # ${reservation_id}`}</h2>
+      <div className="form-row">
+        <div className="col-12 text-center">
+          <h2 className="multiline">{`Select a table for
+          reservation # ${reservation_id}`}</h2>
           <form onSubmit={submitHandler}>
             <div className="my-3">
               <label htmlFor="table_id">

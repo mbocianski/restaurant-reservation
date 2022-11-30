@@ -75,6 +75,10 @@ h3 {
 
 }
 
+.multiline {
+  white-space: pre-line;
+}
+
 /* Fades in elements */
 
 li, .no-res {
