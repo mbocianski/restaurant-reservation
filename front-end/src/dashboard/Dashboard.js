@@ -77,15 +77,15 @@ function Dashboard() {
                 <div className="row my-3">
                   <div className="col text-center">
                     <Link to={`/dashboard?date=${previousDate}`}>
-                      <button className="btn btn-secondary">
+                      <button onClick={()=> setLoaded(false)} className="btn btn-secondary">
                         Previous Day
                       </button>
                     </Link>
                     <Link to="dashboard">
-                      <button className="btn btn-primary">Today</button>
+                      <button onClick={()=> setLoaded(false)} className="btn btn-primary">Today</button>
                     </Link>
                     <Link to={`/dashboard?date=${nextDate}`}>
-                      <button className="btn btn-secondary">Next Day</button>
+                      <button onClick={()=> setLoaded(false)} className="btn btn-secondary">Next Day</button>
                     </Link>
                   </div>
                 </div>
@@ -98,7 +98,7 @@ function Dashboard() {
                 </div>
 
                 <div className="row my-2">
-                  <div className="col-md-12 ">
+                  <div className="col-md-12">
                     <ReservationsDash
                       reservations={reservations}
                       loadDashboard={loadDashboard}
