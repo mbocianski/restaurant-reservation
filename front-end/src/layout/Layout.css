@@ -32,6 +32,8 @@
 html, main, .main-pages{
 background-image:url("../images/diagmonds.png");
 overflow-x: hidden;
+width:100%;
+height: 100%;
 }
 
 
