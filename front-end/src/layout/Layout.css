@@ -30,12 +30,13 @@
 
 /* Main Page Stylings */
 html, body, .main-pages{
-background-image:url("../images/diagmonds.png");
+background-image:url("https://www.toptal.com/designers/subtlepatterns/uploads/diagmonds.png");
 background-color: #111111;
 overflow-x: hidden;
-width:100%;
+width: 100%;
 height: 100%;
 box-sizing: border-box;
+-moz-box-sizing: border-box;
 }
 
 
