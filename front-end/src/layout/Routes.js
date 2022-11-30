@@ -37,7 +37,7 @@ function Routes() {
         <SeatTable />
       </Route>
       <Route path="/reservations/:reservation_id/edit">
-      <ReservationForm type={"edit"} />
+        <ReservationForm type={"edit"} />
       </Route>
       <Route>
         <Search />

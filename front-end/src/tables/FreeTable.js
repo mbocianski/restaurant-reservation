@@ -1,19 +1,24 @@
 import React from "react";
 import { updateTable } from "../utils/api";
 
-export default function FreeTable({table_id, reservation_id, loadTables, loadDashboard}){
+//frees up a table by changing reservation status to 
+//finished and removes reservation_id from table in database
 
-async function freeTable(){
-        try {
-          await updateTable(table_id, Number(reservation_id), "DELETE");
-          loadTables();
-          loadDashboard();
-          
-        } catch (error) {
-          console.log("api error: ", error.message);
-        }
-}
-
+export default function FreeTable({
+  table_id,
+  reservation_id,
+  loadTables,
+  loadDashboard,
+}) {
+  async function freeTable() {
+    try {
+      await updateTable(table_id, Number(reservation_id), "DELETE");
+      loadTables();
+      loadDashboard();
+    } catch (error) {
+      console.log("api error: ", error.message);
+    }
+  }
 
   const clickHandler = () => {
     if (
@@ -21,19 +26,17 @@ async function freeTable(){
         "Is this table ready to seat new guests? This cannot be undone."
       ) === true
     ) {
-        freeTable();
-
+      freeTable();
     }
-    }
+  };
 
-return (
+  return (
     <button
-            data-table-id-finish={`${table_id}`}
-            className="btn btn-danger"
-            onClick={clickHandler}
-          >
-            Finish
-          </button> 
-)
-    
+      data-table-id-finish={`${table_id}`}
+      className="btn btn-danger"
+      onClick={clickHandler}
+    >
+      Finish
+    </button>
+  );
 }

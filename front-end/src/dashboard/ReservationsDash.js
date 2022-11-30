@@ -112,9 +112,8 @@ export default function ReservationsDash({ reservations, loadDashboard }) {
       );
     }
   );
-
+//diaplays no reservations if none are created
   return (
-    
     <div className="my-3">
       {reservations.length < 1 ? (
         <div className="card text-white bg-danger text-center no-res">
@@ -124,6 +123,5 @@ export default function ReservationsDash({ reservations, loadDashboard }) {
         <ul>{displayReservations}</ul>
       )}
     </div>
-  
   );
 }

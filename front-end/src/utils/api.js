@@ -59,19 +59,14 @@ async function fetchJson(url, options, onCancel) {
  */
 
 export async function listReservations(params, signal) {
-  console.log("params", params)
   const url = new URL(`${API_BASE_URL}/reservations`);
   Object.entries(params).forEach(([key, value]) =>
     url.searchParams.append(key, value.toString())
   );
-  console.log("list url", url)
   return await fetchJson(url, { headers, signal }, [])
     .then(formatReservationDate)
     .then(formatReservationTime);
 }
-
-
-
 
 /**
  * Retrieves as reservation with :reservation_id
@@ -79,9 +74,8 @@ export async function listReservations(params, signal) {
  *  a promise that resolves to a possibly empty array of reservation saved in the database.
  */
 
- export async function readReservation(params, signal) {
+export async function readReservation(params, signal) {
   const url = new URL(`${API_BASE_URL}/reservations/${params}`);
-  console.log("readUrl", url)
   return await fetchJson(url, { signal }, [])
     .then(formatReservationDate)
     .then(formatReservationTime);
@@ -93,18 +87,15 @@ Creates reservation
  *  a promise that resolves to a newly created reservation saved in the database.
  */
 
-
-export async function createReservation(reservation){
+export async function createReservation(reservation) {
   const url = new URL(`${API_BASE_URL}/reservations`);
-    const options = {
-      method: "POST",
-      headers,
-      body: JSON.stringify({data: reservation}),
-    }
+  const options = {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ data: reservation }),
+  };
   return await fetchJson(url, options, {});
 }
-
-
 
 /*
 Updaets reservation
@@ -112,15 +103,13 @@ Updaets reservation
  *  a promise that resolves to an updated reservation saved in the database.
  */
 
-
-export async function updateReservation(reservation, reservation_id){
+export async function updateReservation(reservation, reservation_id) {
   const url = new URL(`${API_BASE_URL}/reservations/${reservation_id}`);
-  console.log("Updating", url)
-    const options = {
-      method: "PUT",
-      headers,
-      body: JSON.stringify({data: reservation}),
-    }
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({ data: reservation }),
+  };
   return await fetchJson(url, options, {});
 }
 
@@ -130,18 +119,15 @@ export async function updateReservation(reservation, reservation_id){
  *  a promise that resolves to a possibly empty array of reservation saved in the database.
  */
 
- export async function setReservationStatus(params) {
+export async function setReservationStatus(params) {
   const url = new URL(`${API_BASE_URL}/reservations/${params}/status`);
-  console.log("Update Status URL", url)
-    const options = {
-      method: "PUT",
-      headers,
-      body: JSON.stringify({data: {status: "cancelled"}}),
-    }
-  return await fetchJson(url, options, {})
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({ data: { status: "cancelled" } }),
+  };
+  return await fetchJson(url, options, {});
 }
-
-
 
 /**
  * Retrieves all existing tables.
@@ -149,12 +135,10 @@ export async function updateReservation(reservation, reservation_id){
  *  a promise that resolves to a possibly empty array of table saved in the database.
  */
 
- export async function listTables(signal) {
+export async function listTables(signal) {
   const url = new URL(`${API_BASE_URL}/tables`);
-  console.log("url", url)
-  return await fetchJson(url, { signal }, [])
+  return await fetchJson(url, { signal }, []);
 }
-
 
 /*
 Creates table
@@ -162,15 +146,13 @@ Creates table
  *  a promise that resolves to a newly created table saved in the database.
  */
 
-
-export async function createTable(table){
+export async function createTable(table) {
   const url = new URL(`${API_BASE_URL}/tables`);
-  console.log("url", url)
-    const options = {
-      method: "POST",
-      headers,
-      body: JSON.stringify({data: table}),
-    }
+  const options = {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ data: table }),
+  };
   return await fetchJson(url, options, {});
 }
 
@@ -180,18 +162,12 @@ Udates table with reservation_id to assign reservation to table
  *  a promise that resolves to a newly created table saved in the database.
  */
 
-
-export async function updateTable(table_id, reservation_id, method){
+export async function updateTable(table_id, reservation_id, method) {
   const url = new URL(`${API_BASE_URL}/tables/${table_id}/seat`);
-  console.log("Update url", url)
-    const options = {
-      method: method,
-      headers,
-      body: JSON.stringify({data: {reservation_id: reservation_id}}),
-    }
+  const options = {
+    method: method,
+    headers,
+    body: JSON.stringify({ data: { reservation_id: reservation_id } }),
+  };
   return await fetchJson(url, options, {});
 }
-
-
-
-

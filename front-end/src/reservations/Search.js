@@ -1,29 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { listReservations } from "../utils/api";
-import {useHistory } from "react-router-dom"
+import { useHistory } from "react-router-dom";
 import ReservationsDash from "../dashboard/ReservationsDash";
 
 export default function Search() {
-
   const [query, setQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [submitted, setSubmitted] = useState(false);
   const history = useHistory();
 
-// updates the url with the query
-useEffect(()=>{
-  history.push(`/search?mobile_number=${query}`)
-}, [query,history])
+  // updates the url with the query
+  useEffect(() => {
+    history.push(`/search?mobile_number=${query}`);
+  }, [query, history]);
 
   const changeHandler = ({ target }) => {
     setQuery(target.value);
   };
 
+  //makes API call to searach for numbers
   async function searchNumber() {
     const abortController = new AbortController();
     const { signal } = abortController;
     try {
-      const data = await listReservations({"mobile_number": query }, signal);
+      const data = await listReservations({ mobile_number: query }, signal);
       setSearchResults(data);
       setSubmitted(true);
     } catch (error) {
@@ -34,7 +34,6 @@ useEffect(()=>{
   const submitHandler = (event) => {
     setSubmitted(false);
     event.preventDefault();
-    console.log("searching....");
     searchNumber();
   };
 
@@ -56,24 +55,28 @@ useEffect(()=>{
                 onChange={changeHandler}
               />
             </div>
-            <button className="btn btn-primary mx-auto" type="submit" value="submit">
+            <button
+              className="btn btn-primary mx-auto"
+              type="submit"
+              value="submit"
+            >
               Find
             </button>
           </form>
         </div>
-      {/* Displays only after form is submitted and will show results or none found   */}
-      {submitted ? (
-        searchResults.length > 0 ? (
+        {/* Displays only after form is submitted and will show results or none found   */}
+        {submitted ? (
+          searchResults.length > 0 ? (
             <div className="col-12 slight-buffer col-lg-8">
               <ReservationsDash reservations={searchResults} />
             </div>
-        ) : (
-          <div className="text-center col-12 slight-buffer col-lg-8">
-          <h2 className="bg-dark py-5 my-5">No reservations found</h2>
-          </div>
-        )
-      ) : null}
-    </div>
+          ) : (
+            <div className="text-center col-12 slight-buffer col-lg-8">
+              <h2 className="bg-dark py-5 my-5">No reservations found</h2>
+            </div>
+          )
+        ) : null}
+      </div>
     </div>
   );
 }

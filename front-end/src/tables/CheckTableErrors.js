@@ -1,3 +1,6 @@
+
+//pushes table errors to array to be apped to ErrorAlert file
+
 function CheckTableErrors(table) {
   const { table_name, capacity } = table;
   let errors = [];
@@ -14,12 +17,11 @@ function CheckTableErrors(table) {
 }
 
 function CheckSeatErrors(table = null, people = 0) {
-    let errors = [];
+  let errors = [];
   if (!table) {
     errors.push("Please select a table!");
   } else {
     const { table_name, capacity, reservation_id } = table;
-  
 
     if (reservation_id) errors.push(`${table_name} is full!`);
     if (people > capacity) errors.push(`Plase select a larger table`);

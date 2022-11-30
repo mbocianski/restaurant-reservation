@@ -1,24 +1,30 @@
 import { dayOfWeek } from "../utils/date-time";
 const moment = require("moment");
 
+//Pushes thrown errors to array to be mapped throught ErrorAlert file
+
 export default function checkFormErrors(formData) {
-
   const {
-      first_name,
-      last_name, 
-      mobile_number, 
-      reservation_date, 
-      reservation_time, 
-      } = formData
-
+    first_name,
+    last_name,
+    mobile_number,
+    reservation_date,
+    reservation_time,
+  } = formData;
 
   const requestedMoment =
     formData.reservation_date + " " + formData.reservation_time;
   let errors = [];
 
-  if(!first_name || !last_name || !mobile_number || !reservation_date || !reservation_time){
+  if (
+    !first_name ||
+    !last_name ||
+    !mobile_number ||
+    !reservation_date ||
+    !reservation_time
+  ) {
     errors.push("All fields are required");
-    return errors
+    return errors;
   }
 
   if (dayOfWeek(formData.reservation_date) === "Tuesday") {
@@ -30,12 +36,10 @@ export default function checkFormErrors(formData) {
     errors.push("Reservations must be in the future!");
   }
 
-  if (formData.people < 1){
-    errors.push("Must have at least 1 person in your party")
-}
-  // if (status !== "booked"){
-  //   errors.push("Only reservations with 'booked' status can be updated")
-  // }
+  if (formData.people < 1) {
+    errors.push("Must have at least 1 person in your party");
+  }
+ 
 
   // Error handling for resrvation time
   const format = "hh:mm";
@@ -57,8 +61,6 @@ export default function checkFormErrors(formData) {
   if (reservation.isAfter(closeTime)) {
     errors.push("Sorry, we are closed at that time.");
   }
-
-
 
   return errors;
 }

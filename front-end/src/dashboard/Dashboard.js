@@ -32,15 +32,16 @@ function Dashboard() {
 
   useEffect(loadDashboard, [date]);
 
+  //loads reservations, sets erros, and load state
   function loadDashboard() {
     const abortController = new AbortController();
     setReservationsError(null);
     listReservations({ date }, abortController.signal)
-      .then(data => {
-        setReservations(data)
-        setLoaded(true)
+      .then((data) => {
+        setReservations(data);
+        setLoaded(true);
       })
-      .catch(setReservationsError);  
+      .catch(setReservationsError);
     return () => abortController.abort();
   }
 
@@ -51,7 +52,6 @@ function Dashboard() {
     const abortController = new AbortController();
     listTables(abortController.signal)
       .then(setTables)
-      .then(console.log("done"))
       .catch(setReservationsError);
 
     return () => abortController.abort();
@@ -59,42 +59,44 @@ function Dashboard() {
 
   return (
     <main>
-        {loaded ? (
-      <div className="container-fluid px-3 mt-5">
-        <div className="row my-4">
-          <div className="col text-center ">
-            <h2>Dashboard</h2>
-          </div>
-        </div>
-        <div>
-          <div className="row my-2">
-            <div className="col">
-              <ErrorAlert error={reservationsError} />
+      {loaded ? (
+        <div className="container-fluid px-3 mt-5">
+          <div className="row my-4">
+            <div className="col text-center ">
+              <h2>Dashboard</h2>
             </div>
           </div>
-          <div className="row">     
-            <div className="col-12 col-lg-8">
-              <div className="row my-3">
-                <div className="col text-center">
-                  <Link to={`/dashboard?date=${previousDate}`}>
-                    <button className="btn btn-secondary">Previous Day</button>
-                  </Link>
-                  <Link to="dashboard">
-                    <button className="btn btn-primary">Today</button>
-                  </Link>
-                  <Link to={`/dashboard?date=${nextDate}`}>
-                    <button className="btn btn-secondary">Next Day</button>
-                  </Link>
-                </div>
+          <div>
+            <div className="row my-2">
+              <div className="col">
+                <ErrorAlert error={reservationsError} />
               </div>
-              <div className="row my-3">
-                <div className="col text-center ">
-                  <h3>
-                    <em>{`Reservations for ${date}`}</em>
-                  </h3>
+            </div>
+            <div className="row">
+              <div className="col-12 col-lg-8">
+                <div className="row my-3">
+                  <div className="col text-center">
+                    <Link to={`/dashboard?date=${previousDate}`}>
+                      <button className="btn btn-secondary">
+                        Previous Day
+                      </button>
+                    </Link>
+                    <Link to="dashboard">
+                      <button className="btn btn-primary">Today</button>
+                    </Link>
+                    <Link to={`/dashboard?date=${nextDate}`}>
+                      <button className="btn btn-secondary">Next Day</button>
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            
+                <div className="row my-3">
+                  <div className="col text-center ">
+                    <h3>
+                      <em>{`Reservations for ${date}`}</em>
+                    </h3>
+                  </div>
+                </div>
+
                 <div className="row my-2">
                   <div className="col-md-12">
                     <ReservationsDash
@@ -103,31 +105,33 @@ function Dashboard() {
                     />
                   </div>
                 </div>
-              
-            </div>
-
-            <div className="col-12 col-lg-4 mt-lg-5 pt-lg-4">
-              <div className="row slight-buffer">
-                <div className="col text-center">
-                  <h3>
-                    <em>Tables</em>
-                  </h3>
-                </div>
               </div>
-              <div className="row my-3">
-                <div className="col-md-12">
-                  <TablesDash
-                    tables={tables}
-                    loadTables={loadTables}
-                    loadDashboard={loadDashboard}
-                  />
+
+              <div className="col-12 col-lg-4 mt-lg-5 pt-lg-4">
+                <div className="row slight-buffer">
+                  <div className="col text-center">
+                    <h3>
+                      <em>Tables</em>
+                    </h3>
+                  </div>
+                </div>
+                <div className="row my-3">
+                  <div className="col-md-12">
+                    <TablesDash
+                      tables={tables}
+                      loadTables={loadTables}
+                      loadDashboard={loadDashboard}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      ): <Loading />}
+      ) : (
+        // Loading spinner
+        <Loading />
+      )}
     </main>
   );
 }

@@ -1,5 +1,7 @@
 import React from "react";
 
+
+//loading spinner while api makes calls
 export default function Loading() {
   return (
     <div

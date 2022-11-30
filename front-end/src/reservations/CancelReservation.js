@@ -1,18 +1,17 @@
 import React from "react";
 import { setReservationStatus } from "../utils/api";
 
-export default function CancelReservation({reservation_id, loadDashboard}){
+//cancels a reservation with a confirm window
 
-async function cancel(){
-        try {
-          await setReservationStatus(Number(reservation_id), "PUT");
-          loadDashboard();
-          
-        } catch (error) {
-          console.log("api error: ", error.message);
-        }
-}
-
+export default function CancelReservation({ reservation_id, loadDashboard }) {
+  async function cancel() {
+    try {
+      await setReservationStatus(Number(reservation_id), "PUT");
+      loadDashboard();
+    } catch (error) {
+      console.log("api error: ", error.message);
+    }
+  }
 
   const clickHandler = () => {
     if (
@@ -20,16 +19,17 @@ async function cancel(){
         "Do you want to cancel this reservation? This cannot be undone."
       ) === true
     ) {
-        cancel();
-
+      cancel();
     }
-    }
+  };
 
-return (
+  return (
     <button
-    data-reservation-id-cancel={reservation_id} 
-    onClick={clickHandler}
-    className="btn btn-danger">Cancel</button>
-)
-    
+      data-reservation-id-cancel={reservation_id}
+      onClick={clickHandler}
+      className="btn btn-danger"
+    >
+      Cancel
+    </button>
+  );
 }

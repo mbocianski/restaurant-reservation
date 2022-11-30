@@ -1,6 +1,6 @@
 const service = require("./tables.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
-const reservationService = require("../reservations/reservations.service")
+const reservationService = require("../reservations/reservations.service");
 
 async function list(req, res, next) {
   res.json({ data: await service.list() });
@@ -109,20 +109,19 @@ async function reservationExists(req, res, next) {
       status: 404,
       message: `reservation ${reservation_id} does not exist!`,
     });
-   
   }
 }
 
-async function isReservationSeated(req, res, next){
+async function isReservationSeated(req, res, next) {
   const { reservation_id } = req.body.data;
   const reservation = await reservationService.read(reservation_id);
-  const {status} = reservation
-  if (status === "seated"){
+  const { status } = reservation;
+  if (status === "seated") {
     next({
       status: 400,
-      message: `reservation ${reservation_id} is already seated!`
-    })
-  }else{
+      message: `reservation ${reservation_id} is already seated!`,
+    });
+  } else {
     next();
   }
 }
@@ -153,8 +152,6 @@ async function tableIsOccupied(req, res, next) {
     next();
   }
 }
-
-
 
 //updates table with reservation_id when table is seated
 async function seatTable(req, res) {
@@ -195,7 +192,10 @@ async function tableIsNotOccupied(req, res, next) {
 
 async function unseatTable(req, res) {
   const { table_id, reservation_id } = res.locals;
-  const newReservation = await service.unseatTable(Number(table_id), Number(reservation_id));
+  const newReservation = await service.unseatTable(
+    Number(table_id),
+    Number(reservation_id)
+  );
   res.status(200).json({});
 }
 

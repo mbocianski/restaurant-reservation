@@ -1,10 +1,9 @@
-import React from "react"
+import React from "react";
 import ErrorAlert from "../layout/ErrorAlert";
 
-export default function MapErrors({errors}){
-
+export default function MapErrors({ errors }) {
   if (errors) {
-    let displayError
+    let displayError;
     return errors.map((error, index) => {
       displayError = { message: error };
       return (
@@ -14,5 +13,4 @@ export default function MapErrors({errors}){
       );
     });
   }
-
 }

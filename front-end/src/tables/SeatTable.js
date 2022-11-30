@@ -58,7 +58,7 @@ export default function SeatTable() {
     }
   }
 
-  // submit form, prevent reload and seat table. 
+  // submit form, prevent reload and seat table.
   const submitHandler = (event) => {
     event.preventDefault();
     if (seatErrors) setShowErrors(true);
@@ -78,34 +78,38 @@ export default function SeatTable() {
   });
 
   return (
-    <div>
-      <h2>{`Select a table to seat reservation # ${reservation_id} at`}</h2>
-      <form onSubmit={submitHandler}>
-        <div className="my-3">
-          <label htmlFor="table_id">
-            <select
-              className="form-control"
-              onChange={changeHandler}
-              name="table_id"
+    <div className="contianer mt-5">
+      <div className="row">
+        <div className="col-12">
+          <h2>{`Select a table for reservation # ${reservation_id}`}</h2>
+          <form onSubmit={submitHandler}>
+            <div className="my-3">
+              <label htmlFor="table_id">
+                <select
+                  className="form-control"
+                  onChange={changeHandler}
+                  name="table_id"
+                >
+                  <option value={null}>Select a Table</option>
+                  {formOptions}
+                </select>
+              </label>
+            </div>
+            <button
+              type="button"
+              onClick={() => history.goBack()}
+              className="btn btn-secondary mx-auto"
             >
-              <option value={null}>Select a Table</option>
-              {formOptions}
-            </select>
-          </label>
+              Cancel
+            </button>
+            <button className="btn btn-primary" type="submit" value="submit">
+              Submit
+            </button>
+          </form>
+          {/* maps errors into ShowErrors */}
+          {showErrors && <MapErrors errors={seatErrors} />}
         </div>
-        <button
-          type="button"
-          onClick={() => history.goBack()}
-          className="btn btn-secondary"
-        >
-          Cancel
-        </button>
-        <button className="btn btn-primary" type="submit" value="submit">
-          Submit
-        </button>
-      </form>
-      {/* maps errors into ShowErrors */}
-      {showErrors && <MapErrors errors={seatErrors} />}
+      </div>
     </div>
   );
 }

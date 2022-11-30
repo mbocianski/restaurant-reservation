@@ -81,6 +81,8 @@ function checkTime(req, res, next) {
   const lastCall = moment("21:30", format);
   const closeTime = moment("22:30", format);
 
+
+//middleware for various time and date contraints  
   if (!reservation.isValid()) {
     next({
       status: 400,
@@ -162,7 +164,12 @@ async function read(req, res) {
 
 function correctStatus(req, res, next) {
   const { status } = req.body.data;
-  if (status !== "booked" && status !== "seated" && status !== "finished" && status !=="cancelled") {
+  if (
+    status !== "booked" &&
+    status !== "seated" &&
+    status !== "finished" &&
+    status !== "cancelled"
+  ) {
     next({
       status: 400,
       message: `status ${status} is unknown.`,
@@ -191,22 +198,24 @@ async function setStatus(req, res) {
   res.json({ data: await service.setStatus(reservation_id, status) });
 }
 
-function checkIfBooked(req, res, next){
-  const {status} = res.locals;
-  if (status !== "booked"){
+function checkIfBooked(req, res, next) {
+  const { status } = res.locals;
+  if (status !== "booked") {
     next({
       status: 404,
-      message: "Only reservations with 'booked' status can be updated"
-    })
-  }else{
+      message: "Only reservations with 'booked' status can be updated",
+    });
+  } else {
     next();
   }
 }
 
-async function updateReservation(req, res){
-  const {reservation_id} = req.params;
+async function updateReservation(req, res) {
+  const { reservation_id } = req.params;
   const reservation = res.locals;
-  res.json({data: await service.updateReservation(reservation_id, reservation)})
+  res.json({
+    data: await service.updateReservation(reservation_id, reservation),
+  });
 }
 
 module.exports = {
@@ -245,6 +254,6 @@ module.exports = {
     checkDate,
     checkTime,
     checkIfBooked,
-    asyncErrorBoundary(updateReservation)
-  ]
+    asyncErrorBoundary(updateReservation),
+  ],
 };

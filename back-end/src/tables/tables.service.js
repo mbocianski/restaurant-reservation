@@ -12,7 +12,6 @@ async function create(table) {
     .then((table) => table[0]);
 }
 
-
 async function getTable(table_id) {
   return knex("tables")
     .select("*")
@@ -24,51 +23,50 @@ async function allIds() {
   return knex("reservations").select("reservation_id");
 }
 
-async function seatTable(table_id, reservation_id){
-
-  return  knex.transaction(function(trx){
-    return knex("tables")
-     .update( "reservation_id", reservation_id )
-     .where("table_id", table_id)
-     .transacting(trx)
-     .then(function(){
-       return knex("reservations")
-               .update("status", "seated")
-               .where({reservation_id})
-               .transacting(trx)
-       })
-     .then(trx.commit)
-     .catch(trx.rollback)
- 
+// uses knex transaction to keep tables and reservations tables in sync
+// when seating a reservation
+async function seatTable(table_id, reservation_id) {
+  return knex
+    .transaction(function (trx) {
+      return knex("tables")
+        .update("reservation_id", reservation_id)
+        .where("table_id", table_id)
+        .transacting(trx)
+        .then(function () {
+          return knex("reservations")
+            .update("status", "seated")
+            .where({ reservation_id })
+            .transacting(trx);
+        })
+        .then(trx.commit)
+        .catch(trx.rollback);
     })
-    .catch(function(error){
+    .catch(function (error) {
       console.error(error);
+    });
+}
+// uses knex transaction to keep tables and reservations tables in sync
+// when unseating a reservation
+
+async function unseatTable(table_id, reservation_id) {
+  return knex
+    .transaction(function (trx) {
+      return knex("tables")
+        .update("reservation_id", null)
+        .where("table_id", table_id)
+        .transacting(trx)
+        .then(function () {
+          return knex("reservations")
+            .update("status", "finished")
+            .where({ reservation_id })
+            .transacting(trx);
+        })
+        .then(trx.commit)
+        .catch(trx.rollback);
     })
- }
-
-
-
-async function unseatTable(table_id, reservation_id){
-
- return  knex.transaction(function(trx){
-
-   return knex("tables")
-    .update( "reservation_id", null )
-    .where("table_id", table_id)
-    .transacting(trx)
-    .then(function(){
-      return knex("reservations")
-              .update("status", "finished")
-              .where({reservation_id})
-              .transacting(trx)
-      })
-    .then(trx.commit)
-    .catch(trx.rollback)
-
-   })
-   .catch(function(error){
-     console.error(error);
-   })
+    .catch(function (error) {
+      console.error(error);
+    });
 }
 
 module.exports = {
@@ -77,6 +75,5 @@ module.exports = {
   getTable,
   allIds,
   seatTable,
-  unseatTable
-
+  unseatTable,
 };
