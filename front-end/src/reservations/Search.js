@@ -39,9 +39,9 @@ useEffect(()=>{
   };
 
   return (
-    <div className="container">
+    <div className="container mt-5">
       <div className="row">
-        <div className="col-6">
+        <div className="col-12 col-lg-4">
           <h2>Search for a Reservation</h2>
           <form onSubmit={submitHandler}>
             <div className="mb-3">
@@ -56,24 +56,24 @@ useEffect(()=>{
                 onChange={changeHandler}
               />
             </div>
-            <button className="btn btn-primary" type="submit" value="submit">
+            <button className="btn btn-primary mx-auto" type="submit" value="submit">
               Find
             </button>
           </form>
         </div>
       {/* Displays only after form is submitted and will show results or none found   */}
-      </div>
       {submitted ? (
         searchResults.length > 0 ? (
-          <div className="row">
-            <div className="col-6 border border-solid">
+            <div className="col-12 slight-buffer col-lg-8">
               <ReservationsDash reservations={searchResults} />
             </div>
-          </div>
         ) : (
-          <h2>No reservations found</h2>
+          <div className="text-center col-12 slight-buffer col-lg-8">
+          <h2 className="bg-dark py-5 my-5">No reservations found</h2>
+          </div>
         )
       ) : null}
+    </div>
     </div>
   );
 }

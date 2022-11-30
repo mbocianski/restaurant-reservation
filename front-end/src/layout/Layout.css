@@ -30,7 +30,7 @@
 
 /* Main Page Stylings */
 html, main, .main-pages{
-background-image:url(https://www.toptal.com/designers/subtlepatterns/uploads/diagmonds.png);
+background-image:url("../images/diagmonds.png");
 overflow-x: hidden;
 }
 

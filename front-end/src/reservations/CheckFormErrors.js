@@ -9,7 +9,6 @@ export default function checkFormErrors(formData) {
       mobile_number, 
       reservation_date, 
       reservation_time, 
-      status
       } = formData
 
 

@@ -192,7 +192,7 @@ function ReservationForm({ type }) {
           />
         </div>
         </div>
-        <button type="button" onClick={() => history.goBack()} className="btn btn-secondary">
+        <button type="button" onClick={() => history.goBack()} className="btn btn-secondary mx-auto">
           Cancel
         </button>
         <button className="btn btn-primary" type="submit" value="submit">
