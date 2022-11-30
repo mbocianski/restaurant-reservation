@@ -84,16 +84,16 @@ export default function ReservationsDash({ reservations, loadDashboard }) {
                       <strong>{`${formatAsTime(reservation_time)}`}</strong>
                     </h4>
                   </div>
-                  <div className="col-12 col-md-3 my-auto">
+                  <div className="col-12 col-md-4 my-auto">
+                    <h5>{`${first_name} ${last_name}`}</h5>
                     <p>
-                      <h5>{`${first_name} ${last_name} `}</h5>
                       <em>{`( Party of ${people} )`}</em>
                     </p>
 
                     <p>{`Mobile: ${mobile_number}`}</p>
                   </div>
 
-                  <div className="col-12 col-md-5 my-auto">
+                  <div className="col-12 col-md-4 my-auto">
                     <ReservationButtons />
                   </div>
                 </div>
@@ -114,14 +114,16 @@ export default function ReservationsDash({ reservations, loadDashboard }) {
   );
 
   return (
+    
     <div className="my-3">
       {reservations.length < 1 ? (
-        <div className="card text-white bg-danger text-center">
+        <div className="card text-white bg-danger text-center no-res">
           <h3 className="card-body my-0">No Reservations Today</h3>
         </div>
       ) : (
         <ul>{displayReservations}</ul>
       )}
     </div>
+  
   );
 }

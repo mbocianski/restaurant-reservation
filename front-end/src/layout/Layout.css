@@ -70,16 +70,18 @@ h3 {
 
 }
 
-/* .btn-primary, .btn-primary:focus, .btn-primary:active {
-  background-color: #54E6EB;
-  border-color: #54E6EB
-  
+li, .no-res {
+  animation: fadeInAnimation .5s linear;
 }
 
-.btn-primary:hover {
-  background-color: #47c3c7;
-  border-color: #47c3c7
-} */
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 
 li, ul {
   margin: 0;
@@ -97,9 +99,25 @@ form, input, label, p {
 
 }
 
-.form-outline{
-  width:25%
+/* css for the loading spinner */
+.loader {
+  border: 10px solid #f3f3f3;
+  border-top: 10px solid #54E6EB;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  animation: spin 1s linear infinite;
 }
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+} 
+
  
 /* Small screen devices (600px and above) */
 @media only screen and (max-width: 600px) {

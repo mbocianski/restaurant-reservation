@@ -25,11 +25,10 @@ function Dashboard() {
   search ? (date = query.get("date")) : (date = today());
   const previousDate = previous(date);
   const nextDate = next(date);
-
+  const [loaded, setLoaded] = useState(false);
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
   const [tables, setTables] = useState([]);
-  const [loaded, setLoaded] = useState(false);
 
   useEffect(loadDashboard, [date]);
 
@@ -37,8 +36,11 @@ function Dashboard() {
     const abortController = new AbortController();
     setReservationsError(null);
     listReservations({ date }, abortController.signal)
-      .then(setReservations)
-      .catch(setReservationsError);
+      .then(data => {
+        setReservations(data)
+        setLoaded(true)
+      })
+      .catch(setReservationsError);  
     return () => abortController.abort();
   }
 
@@ -46,11 +48,9 @@ function Dashboard() {
 
   useEffect(loadTables, [date]);
   function loadTables() {
-    setLoaded(false);
     const abortController = new AbortController();
     listTables(abortController.signal)
       .then(setTables)
-      .then(setLoaded(true))
       .then(console.log("done"))
       .catch(setReservationsError);
 
@@ -59,6 +59,7 @@ function Dashboard() {
 
   return (
     <main>
+        {loaded ? (
       <div className="container-fluid px-3 mt-5">
         <div className="row my-4">
           <div className="col text-center ">
@@ -71,8 +72,7 @@ function Dashboard() {
               <ErrorAlert error={reservationsError} />
             </div>
           </div>
-
-          <div className="row">
+          <div className="row">     
             <div className="col-12 col-lg-8">
               <div className="row my-3">
                 <div className="col text-center">
@@ -94,8 +94,7 @@ function Dashboard() {
                   </h3>
                 </div>
               </div>
-
-              {loaded ? (
+            
                 <div className="row my-2">
                   <div className="col-md-12">
                     <ReservationsDash
@@ -104,9 +103,7 @@ function Dashboard() {
                     />
                   </div>
                 </div>
-              ) : (
-                <Loading />
-              )}
+              
             </div>
 
             <div className="col-12 col-lg-4 mt-lg-5 pt-lg-4">
@@ -130,6 +127,7 @@ function Dashboard() {
           </div>
         </div>
       </div>
+      ): <Loading />}
     </main>
   );
 }

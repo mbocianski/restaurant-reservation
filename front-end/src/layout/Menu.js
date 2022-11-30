@@ -40,7 +40,7 @@ function Menu() {
               <Link className="nav-link nav-item active" to="/dashboard">
                 <span className="oi oi-dashboard" />
                 &nbsp;Dashboard
-                <span class="sr-only">(current)</span>
+                <span className="sr-only">(current)</span>
               </Link>
               <Link className="nav-link nav-item" to="/search">
                 <span className="oi oi-magnifying-glass" />
