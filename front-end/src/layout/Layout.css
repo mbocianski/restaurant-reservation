@@ -29,7 +29,7 @@
 
 
 /* Main Page Stylings */
-html, main, .main-pages{
+html, body, .main-pages{
 background-image:url("../images/diagmonds.png");
 overflow-x: hidden;
 width:100%;
