@@ -74,17 +74,17 @@ export default function ReservationsDash({ reservations, loadDashboard }) {
       }
 
       return (
-        <li className="card text-white bg-dark mb-5 px-2" key={reservation_id}>
+        <li className="card text-white bg-dark mb-5 px-2 " key={reservation_id}>
           <div className="card-body container ">
             <div className="card-text row pr-4">
-              <div className="col-9 col-md-10">
+              <div className="col-12 col-sm-10 col-md-10">
                 <div className="row">
                   <div className="col-12 col-md-3 my-auto">
                     <h4>
                       <strong>{`${formatAsTime(reservation_time)}`}</strong>
                     </h4>
                   </div>
-                  <div className="col-12 col-md-4 my-auto">
+                  <div className="col-12 my-auto col-md-4">
                     <h5>{`${first_name} ${last_name}`}</h5>
                     <p>
                       <em>{`( Party of ${people} )`}</em>
@@ -98,9 +98,9 @@ export default function ReservationsDash({ reservations, loadDashboard }) {
                   </div>
                 </div>
               </div>
-              <div className="col-3 col-md-2 my-auto">
+              <div className="col-12 col-sm-2 col-md-2 my-auto">
                 <span
-                  className={`badge ${badgeColor} badge-pill p-3`}
+                  className={`badge ${badgeColor} badge-pill my-2 p-2 p-sm-3`}
                   data-reservation-id-status={reservation_id}
                 >
                   {resStatus}

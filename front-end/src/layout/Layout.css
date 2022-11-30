@@ -62,8 +62,8 @@ h3 {
 }
 
 .btn {
-  padding:10px;
-  margin: 0 5px;
+  padding:7px;
+  margin: 5px;
 }
 
 .btn:focus{
@@ -96,8 +96,9 @@ li, ul {
   list-style-type: none;
 }
 
+/* Aligns the reservation table when side by side */
 .slight-buffer{
-  margin-top:6px
+  margin-top:9px
 }
 
 /* change form labels to white */
@@ -126,13 +127,22 @@ form, input, label, p {
 } 
 
  
-/* Small screen devices (600px and above) */
+/* Small screen devices (600px and below) */
 @media only screen and (max-width: 600px) {
   .navbar-brand {
-    font-size: 30px;
+    font-size: 4vh;
   }
 
-  h3 {
+  h2{
+    font-size: 4vh;
+  }
+
+  h3 ,h4, h5 {
     font-size: 3vh;
+  }
+
+
+  .btn{
+    font-size: 1.75vh;
   }
 }

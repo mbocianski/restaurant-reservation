@@ -135,7 +135,7 @@ function ReservationForm({ type }) {
               onChange={changeHandler}
             />
           </div>
-          <div className="mb-3 col-6 col-md-4">
+          <div className="mb-3 col-12 col-sm-6 col-md-4">
             <label className="form-label" htmlFor="mobile_number">
               Mobile Number:
             </label>
@@ -149,7 +149,7 @@ function ReservationForm({ type }) {
               onChange={changeHandler}
             />
           </div>
-          <div className="mb-3 col-6 col-md-4">
+          <div className="mb-3 col-12 col-sm-6 col-md-4">
             <label className="form-label" htmlFor="people">
               Number of People:
             </label>
@@ -163,7 +163,7 @@ function ReservationForm({ type }) {
               onChange={changeHandler}
             />
           </div>
-          <div className="mb-3 col-6 col-md-4">
+          <div className="mb-3 col-12 col-sm-6 col-md-4">
             <label className="form-label" htmlFor="reservation_date">
               Date of Reservation:
             </label>
@@ -178,7 +178,7 @@ function ReservationForm({ type }) {
               onChange={changeHandler}
             />
           </div>
-          <div className="mb-3 col-6 col-md-4">
+          <div className="mb-3 col-12 col-sm-6 col-md-4">
             <label className="form-label" htmlFor="reservation_time">
               Time of Reservation:
             </label>

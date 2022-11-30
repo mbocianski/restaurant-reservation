@@ -98,7 +98,7 @@ function Dashboard() {
                 </div>
 
                 <div className="row my-2">
-                  <div className="col-md-12">
+                  <div className="col-md-12 ">
                     <ReservationsDash
                       reservations={reservations}
                       loadDashboard={loadDashboard}
