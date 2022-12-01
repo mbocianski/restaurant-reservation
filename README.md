@@ -8,7 +8,7 @@
 
 Periodic Tables is a restaurant reservation system to manage reservations and seat guests at tables. 
 
-###Main features:
+### Main features:
 
 - Take reservations for current and future dates
 - Edit or cancel existing reservations that have not been seated
