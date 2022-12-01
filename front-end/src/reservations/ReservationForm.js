@@ -56,7 +56,7 @@ function ReservationForm({ type }) {
     )}-${phoneNumber.slice(6, 10)}`;
   }
 
-  //loads table and resrervation data if editing
+  //loads table and resrervation data if editing a table
   useEffect(() => {
     // will load in existing reservation if type = edit
     async function loadData() {
@@ -85,7 +85,6 @@ function ReservationForm({ type }) {
 
   //updates form as user types
   const changeHandler = ({ target }) => {
-
     //formats phone number
     if (target.name === "mobile_number") {
       const phone = formatPhone(target.value);
@@ -129,7 +128,6 @@ function ReservationForm({ type }) {
     event.preventDefault();
     sendReservation(formData);
   };
-
 
   return (
     <div className="m-5">
