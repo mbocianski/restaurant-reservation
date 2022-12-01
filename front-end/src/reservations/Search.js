@@ -38,9 +38,9 @@ export default function Search() {
   };
 
   return (
-    <div className="container mt-5">
+    <div className="container-flex m-5">
       <div className="row">
-        <div className="col-12 col-lg-4">
+        <div className="col-12 col-xl-4">
           <h2>Search for a Reservation</h2>
           <form onSubmit={submitHandler}>
             <div className="mb-3">
@@ -67,7 +67,7 @@ export default function Search() {
         {/* Displays only after form is submitted and will show results or none found   */}
         {submitted ? (
           searchResults.length > 0 ? (
-            <div className="col-12 slight-buffer col-lg-8">
+            <div className="col-12 col-xl-8">
               <ReservationsDash reservations={searchResults} />
             </div>
           ) : (
