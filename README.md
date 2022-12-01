@@ -1,14 +1,25 @@
-# Capstone: Restaurant Reservation System
+# Periodic Tables - Restaurant Reservation System
 
-The name of your application at the top of the file
 
-A link to your live application
+
+[View Application](https://restaurant-reservation-client-27ki.onrender.com/)
+
+## About Periodic Tables
+
+Periodic Tables is a restaurant reservation system to manage reservations and seat guests at tables. 
+
+###Main features:
+
+- Take reservations for current and future dates
+- Edit or cancel existing reservations that have not been seated
+- Manage and seat tables (this assigns the reservation_id to that table)
+- Search for reservations by phone number
+- Free tables when guests leave
 
 Documentation of your API
 
 Screenshots of your application; this makes your application description much easier to understand
 
-A summary section that concisely explains what your application does; try to frame this from the standpoint of what the user does or how the application benefits the user
 
 A section on the technology used
 
