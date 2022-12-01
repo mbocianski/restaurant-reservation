@@ -37,7 +37,7 @@ This responsive app can be used across desktop, tablet, and mobile devices.
 - Free tables when guests leave
 <br><br>
 <img src="./front-end/src/images/pt_table.png" width="250" alt="occupied table with seat button">
-<br><br>
+<br><br>`
 
 
 ### Other Features
