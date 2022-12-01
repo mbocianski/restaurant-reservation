@@ -45,7 +45,7 @@ function hasProperty(property) {
 
 //checks to see if date and time exist
 function checkDate(req, res, next) {
-  moment.tz.setDefault(moment.tz.guess());
+  moment.tz.setDefault(moment.tz.guess(true));
   console.log(moment(), moment().local())
   const { reservation_date, reservation_time } = res.locals;
   const dayName = moment(reservation_date, "YYYY-MM-DD", true).format("dddd");
