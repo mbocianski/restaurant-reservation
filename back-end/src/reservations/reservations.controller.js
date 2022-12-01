@@ -1,8 +1,8 @@
 const service = require("./reservations.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const moment = require("moment-timezone");
-const tableService = require("../tables/tables.service");
-// const { next } = require("../../../front-end/src/utils/date-time");
+
+
 
 /**
  * List handler for reservation resources
@@ -49,7 +49,7 @@ function checkDate(req, res, next) {
   const dayName = moment(reservation_date, "YYYY-MM-DD", true).format("dddd");
   //reconstitues date and time for comparison to current monent
   const requestedMoment = moment(reservation_date + " " + reservation_time, moment.ISO_8601);
-  console.log(moment().utc().format(), requestedMoment.utc().format())
+  console.log(moment().utc().format(), moment.utc(requestedMoment).format())
   if (!moment(reservation_date, "YYYY-MM-DD", true).isValid()) {
     next({
       status: 400,
@@ -62,7 +62,7 @@ function checkDate(req, res, next) {
       message: "Sorry, we are closed on Tuesdays, please select another date",
     });
   }
-  if (moment(requestedMoment.utc().format()).isBefore(moment().utc().format())) {
+  if (moment(moment.utc(requestedMoment).format()).isBefore(moment().utc().format())) {
     next({
       status: 400,
       message: "Reservation must be in the future",
