@@ -10,13 +10,10 @@ import MapErrors from "../utils/MapErrors";
 import { dayOfWeek } from "../utils/date-time";
 import CheckFormErrors from "./CheckFormErrors";
 
-
-
 function ReservationForm({ type }) {
   const history = useHistory();
   let initialFormData;
   const { reservation_id } = useParams();
-
 
   //sets reservation date for tomorrow, or two days out of tommorrow is a Tuesday
   const firstDate = () => {
@@ -38,17 +35,17 @@ function ReservationForm({ type }) {
   const [formData, setFormData] = useState(initialFormData);
   const [reservationsError, setReservationsError] = useState(null);
   const [showErrors, setShowErrors] = useState(false);
- 
-  function formatPhone(value){
+
+  function formatPhone(value) {
     // if input value is falsy eg if the user deletes the input, then just return
     if (!value) return value;
-  
+
     // clean the input for any non-digit values.
-    const phoneNumber = value.replace(/[^\d]/g, '');
-  
+    const phoneNumber = value.replace(/[^\d]/g, "");
+
     // phoneNumberLength is used to know when to apply our formatting for the phone number
     const phoneNumberLength = phoneNumber.length;
-  
+
     if (phoneNumberLength < 4) return phoneNumber;
     if (phoneNumberLength < 7) {
       return `${phoneNumber.slice(0, 3)}-${phoneNumber.slice(3)}`;
@@ -57,8 +54,7 @@ function ReservationForm({ type }) {
       3,
       6
     )}-${phoneNumber.slice(6, 10)}`;
-    }
-  
+  }
 
   //loads table and resrervation data if editing
   useEffect(() => {
@@ -89,20 +85,21 @@ function ReservationForm({ type }) {
 
   //updates form as user types
   const changeHandler = ({ target }) => {
-if (target.name === "mobile_number"){
-  const phone = formatPhone(target.value)
-  console.log(phone)
-  setFormData({
-    ...formData,
-    [target.name]: phone,
-  });
-} else{
-    setFormData({
-      ...formData,
-      [target.name]:
-        target.name === "people" ? parseInt(target.value) : target.value,
-    });
-  }
+
+    //formats phone number
+    if (target.name === "mobile_number") {
+      const phone = formatPhone(target.value);
+      setFormData({
+        ...formData,
+        [target.name]: phone,
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [target.name]:
+          target.name === "people" ? parseInt(target.value) : target.value,
+      });
+    }
   };
 
   //sets errors every time the data on the form changes
@@ -134,11 +131,13 @@ if (target.name === "mobile_number"){
   };
 
 
-  // console.log(formData)
-
   return (
     <div className="m-5">
-      <h2>{type === "edit" ? `Editing Reservation # ${reservation_id}`  :"New Reservation"}</h2>
+      <h2>
+        {type === "edit"
+          ? `Editing Reservation # ${reservation_id}`
+          : "New Reservation"}
+      </h2>
       {/* maps errors into ShowErrors */}
       {showErrors && <MapErrors errors={reservationsError} />}
       <form onSubmit={submitHandler}>
@@ -174,12 +173,13 @@ if (target.name === "mobile_number"){
               Mobile Number:
             </label>
             <input
-            onChange={changeHandler} 
-            value={formData.mobile_number} 
-            id="mobile_number"
-            name="mobile_number"
-            className="form-control"
-            placeholder="Enter Phone Number"/>
+              onChange={changeHandler}
+              value={formData.mobile_number}
+              id="mobile_number"
+              name="mobile_number"
+              className="form-control"
+              placeholder="Enter Phone Number"
+            />
           </div>
           <div className="mb-3 col-12 col-sm-6 col-md-4">
             <label className="form-label" htmlFor="people">
