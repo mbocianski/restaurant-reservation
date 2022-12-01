@@ -78,7 +78,9 @@ export default function SeatTable() {
   });
 
   return (
-    <div className="contianer mt-5">
+    <div className="container mt-5">
+       {/* maps errors into ShowErrors */}
+       {showErrors && <MapErrors errors={seatErrors} />}
       <div className="form-row">
         <div className="col-12 text-center">
           <h2 className="multiline">{`Select a table for
@@ -107,8 +109,6 @@ export default function SeatTable() {
               Submit
             </button>
           </form>
-          {/* maps errors into ShowErrors */}
-          {showErrors && <MapErrors errors={seatErrors} />}
         </div>
       </div>
     </div>
