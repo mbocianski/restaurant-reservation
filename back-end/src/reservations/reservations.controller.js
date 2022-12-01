@@ -45,12 +45,11 @@ function hasProperty(property) {
 
 //checks to see if date and time exist
 function checkDate(req, res, next) {
-  moment.tz.setDefault(moment.tz.guess(true));
-  console.log(moment(), moment().local())
   const { reservation_date, reservation_time } = res.locals;
   const dayName = moment(reservation_date, "YYYY-MM-DD", true).format("dddd");
   //reconstitues date and time for comparison to current monent
   const requestedMoment = moment(reservation_date + " " + reservation_time, moment.ISO_8601);
+  console.log(moment().utc().format(), requestedMoment.utc().format())
   if (!moment(reservation_date, "YYYY-MM-DD", true).isValid()) {
     next({
       status: 400,
@@ -63,7 +62,7 @@ function checkDate(req, res, next) {
       message: "Sorry, we are closed on Tuesdays, please select another date",
     });
   }
-  if (moment(requestedMoment).isBefore(moment().local())) {
+  if (moment(requestedMoment.utc().format()).isBefore(moment().utc().format())) {
     next({
       status: 400,
       message: "Reservation must be in the future",
