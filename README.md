@@ -1,6 +1,6 @@
 # Periodic Tables - Restaurant Reservation System
 
-
+![Dashboard](./front-end/src/images/pt_dashboard.png | width = 500)
 
 [View Application](https://restaurant-reservation-client-27ki.onrender.com/)
 
