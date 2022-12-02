@@ -50,7 +50,6 @@ function checkDate(req, res, next) {
   const dayName = moment(reservation_date, "YYYY-MM-DD", true).format("dddd");
   //reconstitues date and time for comparison to current monent
   const requestedMoment = moment(reservation_date + " " + reservation_time, moment.ISO_8601);
-  console.log(moment().tz("America/Los_Angeles").format(), requestedMoment)
   if (!moment(reservation_date, "YYYY-MM-DD", true).isValid()) {
     next({
       status: 400,
