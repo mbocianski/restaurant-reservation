@@ -136,6 +136,7 @@ function ReservationForm({ type }) {
           ? `Editing Reservation # ${reservation_id}`
           : "New Reservation"}
       </h2>
+      <p><em>Times are in PST</em></p>
       {/* maps errors into ShowErrors */}
       {showErrors && <MapErrors errors={reservationsError} />}
       <form onSubmit={submitHandler}>

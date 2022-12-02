@@ -46,10 +46,11 @@ function hasProperty(property) {
 //checks to see if date and time exist
 function checkDate(req, res, next) {
   const { reservation_date, reservation_time } = res.locals;
+  //Restaurant is loacted in Los Angeles, so times are in PST
   const dayName = moment(reservation_date, "YYYY-MM-DD", true).format("dddd");
   //reconstitues date and time for comparison to current monent
   const requestedMoment = moment(reservation_date + " " + reservation_time, moment.ISO_8601);
-  console.log(moment().utc().format(), moment.utc(requestedMoment).format())
+  console.log(moment().tz("America/Los_Angeles").format(), requestedMoment)
   if (!moment(reservation_date, "YYYY-MM-DD", true).isValid()) {
     next({
       status: 400,
@@ -62,7 +63,7 @@ function checkDate(req, res, next) {
       message: "Sorry, we are closed on Tuesdays, please select another date",
     });
   }
-  if (moment(moment.utc(requestedMoment).format()).isBefore(moment().utc().format())) {
+  if (moment(moment(requestedMoment)).isBefore(moment().tz("America/Los_Angeles").format())) {
     next({
       status: 400,
       message: "Reservation must be in the future",
